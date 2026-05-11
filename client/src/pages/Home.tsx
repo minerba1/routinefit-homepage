@@ -79,7 +79,7 @@ export default function Home() {
       desc: "AI가 당신의 건강 상태, 영양 필요도, 요리 능력을 고려해 3가지 요리를 추천합니다."
     },
     {
-      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/cooking-step3-recipe-selection-26SPboxRaqxkLVZ3QMMFUV.webp",
+      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/cooking-step3-recipe-korean-TwsX5FS7hDJ7KMXCqS34bp.webp",
       title: "최적의 요리 선택",
       desc: "추천된 요리 중 가장 적합한 것을 선택하고, 실시간 조리법 가이드를 받으세요."
     }
@@ -491,58 +491,60 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-6">
             {[
               {
-                icon: "🩸",
+                image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/solution-blood-pressure-dBCQEzRVoXwwx2uzrTCzUm.webp",
                 title: "혈압 관리",
                 desc: "고혈압으로 고민하는 분들을 위해 저염 식단과 운동 루틴을 맞춤 제안합니다."
               },
               {
-                icon: "🍬",
+                image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/solution-blood-sugar-2yQHPqGHK8qo2h7fUUdLBF.webp",
                 title: "혈당 관리",
                 desc: "당뇨 전단계 또는 당뇨병 환자를 위한 혈당 안정화 식단과 활동 계획을 제공합니다."
               },
               {
-                icon: "⚖️",
+                image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/solution-weight-loss-2viDdSa933MaxZwbbrmTrN.webp",
                 title: "체중 감량",
                 desc: "건강한 체중 감량을 위해 개인의 기초대사량을 고려한 식단과 운동을 제안합니다."
               },
               {
-                icon: "💪",
+                image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/solution-muscle-strength-jx3eYSGrG6RAzVYTnuY4dt.webp",
                 title: "근력 증강",
                 desc: "근손실 예방과 근력 강화가 필요한 분들을 위한 단백질 식단과 운동 프로그램을 제공합니다."
               },
               {
-                icon: "🦴",
+                image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/solution-osteoporosis-A6etpdJDKksVvMvkJPjkRG.webp",
                 title: "골다공증 예방",
                 desc: "칼슘과 비타민D 섭취를 강화하고 뼈 건강을 위한 운동을 추천합니다."
               },
               {
-                icon: "🧠",
+                image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/solution-fatigue-SFwQjrGPuwLGKoAaLQ2cLf.webp",
                 title: "피로 회복",
                 desc: "만성 피로를 겪는 분들을 위해 에너지 보충 식단과 휴식 패턴을 최적화합니다."
               },
               {
-                icon: "🫀",
+                image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/solution-cardiovascular-UdZbMqQkZ8hUDueKHmJTTY.webp",
                 title: "심혈관 건강",
                 desc: "심장 건강을 위해 오메가3 식단과 유산소 운동을 맞춤 구성합니다."
               },
               {
-                icon: "🌙",
+                image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/solution-sleep-h4BQHayfvSTLnMNnmkQsKd.webp",
                 title: "수면 개선",
                 desc: "불면증 개선을 위해 저녁 식단, 카페인 섭취 시간, 휴식 루틴을 최적화합니다."
               },
               {
-                icon: "🫧",
+                image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/solution-digestion-bcKqMVqpGA8UXtHbr3r7aZ.webp",
                 title: "소화 건강",
                 desc: "소화 불편함을 겪는 분들을 위해 장 건강 식단과 배변 활동을 추적합니다."
               },
               {
-                icon: "✨",
+                image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/solution-skin-iwE8hFttBkb63GVUcCJTVf.webp",
                 title: "피부 건강",
                 desc: "피부 건강을 위해 항산화 식품과 수분 섭취, 수면 패턴을 종합 관리합니다."
               }
             ].map((scenario, idx) => (
-              <Card key={idx} className="p-6 hover:shadow-lg transition border-2 border-primary/10 hover:border-primary/30">
-                <div className="text-3xl mb-3">{scenario.icon}</div>
+              <Card key={idx} className="p-6 hover:shadow-lg transition border-2 border-primary/10 hover:border-primary/30 overflow-hidden">
+                <div className="mb-4 h-32 -mx-6 -mt-6 bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
+                  <img src={scenario.image} alt={scenario.title} className="h-full w-full object-cover" />
+                </div>
                 <h3 className="text-lg font-bold text-foreground mb-2">{scenario.title}</h3>
                 <p className="text-muted-foreground text-sm">{scenario.desc}</p>
               </Card>
