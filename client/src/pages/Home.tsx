@@ -4,7 +4,7 @@ import { ArrowRight, CheckCircle2, Zap, Heart, TrendingUp, Users, ChevronLeft, C
 import { useState } from "react";
 
 /**
- * RoutineFit Homepage - Korean Version (Updated)
+ * RoutineFit Homepage - Korean Version (Final Update)
  * Design Philosophy: Trust + Stability + Food-Centric (음식 중심의 건강 관리)
  * Color Palette: Primary Green (#10B981), Primary Blue (#0EA5E9), Accent Teal (#14B8A6)
  * Typography: Noto Sans KR (모든 연령대 가독성 최적화)
@@ -12,27 +12,76 @@ import { useState } from "react";
 
 export default function Home() {
   const [currentScreenshot, setCurrentScreenshot] = useState(0);
+  const [currentCookingStep, setCurrentCookingStep] = useState(0);
 
   const screenshots = [
     {
-      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/app-screenshot-1-i3VupBqHFaKEMGXMHNf2wP.webp",
+      image: "/manus-storage/Screenshot_20260511_164625_Chrome_c386ce72.jpg",
       title: "홈 대시보드",
       desc: "오늘의 건강 점수와 주요 지표를 한눈에 확인하세요"
     },
     {
-      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/app-screenshot-2-WAg4M3sPkRH5LbPEBpG5MC.webp",
+      image: "/manus-storage/Screenshot_20260511_164634_Chrome_13b4a7ec.jpg",
       title: "음식 기록",
       desc: "사진 한 장으로 음식을 인식하고 영양 정보를 자동 분석"
     },
     {
-      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/app-screenshot-3-nmBgpxTR59GZWsFs4rinib.webp",
+      image: "/manus-storage/Screenshot_20260511_164704_Chrome_3abb6b2a.jpg",
+      title: "건강 분석",
+      desc: "AI가 분석한 건강 패턴과 개선 사항을 확인하세요"
+    },
+    {
+      image: "/manus-storage/Screenshot_20260511_164714_Chrome_95c31bc8.jpg",
       title: "주간 리포트",
       desc: "건강 개선 추이를 시각화하고 AI 인사이트를 받아보세요"
     },
     {
-      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/app-screenshot-4-95KzGKAR7rxg9sFP6ipRc.webp",
-      title: "AI 어시스턴트",
+      image: "/manus-storage/Screenshot_20260511_164721_Chrome_ccfffe04.jpg",
+      title: "운동 추적",
+      desc: "일일 활동량과 운동 기록을 자동으로 추적합니다"
+    },
+    {
+      image: "/manus-storage/Screenshot_20260511_164745_Chrome_a33d91f5.jpg",
+      title: "수면 관리",
+      desc: "수면 패턴을 기록하고 개선 방법을 제안받으세요"
+    },
+    {
+      image: "/manus-storage/Screenshot_20260511_164825_Chrome_1dac64da.jpg",
+      title: "혈압 기록",
+      desc: "일일 혈압 변화를 추적하고 건강 상태를 모니터링하세요"
+    },
+    {
+      image: "/manus-storage/Screenshot_20260511_164838_Chrome_46f73b79.jpg",
+      title: "맞춤 제안",
+      desc: "AI가 당신의 건강 데이터를 분석해 개인화된 조언을 제공합니다"
+    },
+    {
+      image: "/manus-storage/Screenshot_20260511_164852_Chrome_64b1ef79.jpg",
+      title: "AI 채팅",
       desc: "언제든 AI 건강 어시스턴트와 상담하세요"
+    },
+    {
+      image: "/manus-storage/Screenshot_20260511_164913_Chrome_a581e153.jpg",
+      title: "설정 및 프로필",
+      desc: "개인 건강 정보를 관리하고 앱 설정을 커스터마이즈하세요"
+    }
+  ];
+
+  const cookingSteps = [
+    {
+      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/cooking-step1-refrigerator-UvBuhk6v8U35V2VujBe6HG.webp",
+      title: "냉장고 재료 촬영",
+      desc: "냉장고 안의 재료들을 사진으로 찍어 AI에게 전달하세요."
+    },
+    {
+      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/cooking-step2-ai-analysis-RrVBjMsKgdNtMiRStm9w85.webp",
+      title: "AI 분석 및 제안",
+      desc: "AI가 당신의 건강 상태, 영양 필요도, 요리 능력을 고려해 3가지 요리를 추천합니다."
+    },
+    {
+      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/cooking-step3-recipe-selection-26SPboxRaqxkLVZ3QMMFUV.webp",
+      title: "최적의 요리 선택",
+      desc: "추천된 요리 중 가장 적합한 것을 선택하고, 실시간 조리법 가이드를 받으세요."
     }
   ];
 
@@ -42,6 +91,14 @@ export default function Home() {
 
   const prevScreenshot = () => {
     setCurrentScreenshot((prev) => (prev - 1 + screenshots.length) % screenshots.length);
+  };
+
+  const nextCookingStep = () => {
+    setCurrentCookingStep((prev) => (prev + 1) % cookingSteps.length);
+  };
+
+  const prevCookingStep = () => {
+    setCurrentCookingStep((prev) => (prev - 1 + cookingSteps.length) % cookingSteps.length);
   };
 
   return (
@@ -160,7 +217,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4 Health Elements Section - Updated with Korean Image */}
+      {/* 4 Health Elements Section */}
       <section className="py-20 md:py-32 bg-white">
         <div className="container">
           <div className="text-center mb-16">
@@ -230,7 +287,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* AI Cooking Recommendation Section - NEW */}
+      {/* AI Cooking Recommendation Section - Enhanced */}
       <section id="cooking" className="py-20 md:py-32 bg-green-50">
         <div className="container">
           <div className="text-center mb-16">
@@ -242,37 +299,58 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 mb-12">
-            {[
-              {
-                step: "1",
-                title: "냉장고 재료 촬영",
-                desc: "냉장고 안의 재료들을 사진으로 찍어 AI에게 전달하세요."
-              },
-              {
-                step: "2",
-                title: "AI 분석 및 제안",
-                desc: "AI가 당신의 건강 상태, 영양 필요도, 요리 능력을 고려해 3가지 요리를 추천합니다."
-              },
-              {
-                step: "3",
-                title: "최적의 요리 선택",
-                desc: "추천된 요리 중 가장 적합한 것을 선택하고, 실시간 조리법 가이드를 받으세요."
-              }
-            ].map((item, idx) => (
-              <Card key={idx} className="p-8 bg-white border-2 border-primary/20 hover:border-primary transition">
-                <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center mb-4 text-xl font-bold">
-                  {item.step}
-                </div>
-                <h3 className="text-lg font-bold text-foreground mb-3">{item.title}</h3>
-                <p className="text-muted-foreground">{item.desc}</p>
-              </Card>
-            ))}
+          {/* Cooking Steps with Images */}
+          <div className="max-w-5xl mx-auto mb-16">
+            <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden">
+              {/* Step Image */}
+              <div className="relative aspect-video md:aspect-auto md:h-[500px] flex items-center justify-center bg-gray-50">
+                <img
+                  src={cookingSteps[currentCookingStep].image}
+                  alt={cookingSteps[currentCookingStep].title}
+                  className="h-full w-auto object-contain"
+                />
+              </div>
+
+              {/* Navigation Buttons */}
+              <button
+                onClick={prevCookingStep}
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg hover:shadow-xl transition flex items-center justify-center hover:bg-primary hover:text-white"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+              <button
+                onClick={nextCookingStep}
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg hover:shadow-xl transition flex items-center justify-center hover:bg-primary hover:text-white"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+
+              {/* Info Section */}
+              <div className="bg-gradient-to-r from-primary to-accent p-6 md:p-8 text-white">
+                <h3 className="text-2xl font-bold mb-2">{cookingSteps[currentCookingStep].title}</h3>
+                <p className="text-white/90">{cookingSteps[currentCookingStep].desc}</p>
+              </div>
+            </div>
+
+            {/* Dots Indicator */}
+            <div className="flex justify-center gap-2 mt-8">
+              {cookingSteps.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentCookingStep(idx)}
+                  className={`w-3 h-3 rounded-full transition ${
+                    idx === currentCookingStep ? "bg-primary w-8" : "bg-border hover:bg-muted-foreground"
+                  }`}
+                />
+              ))}
+            </div>
           </div>
 
+          {/* AI Cooking Basis */}
           <div className="bg-white rounded-2xl p-8 border-2 border-primary/20">
-            <h3 className="text-2xl font-bold text-foreground mb-6">AI 요리 추천의 기준</h3>
-            <div className="grid md:grid-cols-2 gap-8">
+            <h3 className="text-2xl font-bold text-foreground mb-8">AI 요리 추천의 기준</h3>
+            
+            <div className="grid md:grid-cols-2 gap-8 mb-8">
               <div>
                 <h4 className="font-bold text-primary mb-4">AI가 고려하는 요소</h4>
                 <ul className="space-y-3">
@@ -304,6 +382,34 @@ export default function Home() {
                     </li>
                   ))}
                 </ul>
+              </div>
+            </div>
+
+            {/* Additional Basis */}
+            <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-6 border-l-4 border-primary">
+              <h4 className="font-bold text-foreground mb-4">추가 기준 - 더욱 정교한 추천</h4>
+              <div className="space-y-4">
+                <div className="flex gap-4">
+                  <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm">1</div>
+                  <div>
+                    <p className="font-bold text-foreground">6개의 기초설문을 바탕으로 당신의 주치의가 준비되어 있는 상태</p>
+                    <p className="text-sm text-muted-foreground mt-1">건강 목표, 식이 선호도, 알레르기, 운동 수준, 생활 패턴, 질환 이력 등을 파악하여 초기 프로필 구성</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm">2</div>
+                  <div>
+                    <p className="font-bold text-foreground">7일간의 사용자 입력 데이터 분석으로 최선의 요리추천</p>
+                    <p className="text-sm text-muted-foreground mt-1">당신의 선호음식, 당신의 요리수준, 당신의 일상패턴을 다 파악하는 상태로 진화</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center flex-shrink-0 font-bold text-sm">3</div>
+                  <div>
+                    <p className="font-bold text-foreground">냉장고안 재료를 바탕으로 위 두사항들을 고려해 최선의 음식 추천</p>
+                    <p className="text-sm text-muted-foreground mt-1">개인의 건강 프로필 + 7일 데이터 + 현재 냉장고 재료 = 최적화된 맞춤 요리 제안</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -355,13 +461,13 @@ export default function Home() {
             </div>
 
             {/* Dots Indicator */}
-            <div className="flex justify-center gap-2 mt-8">
+            <div className="flex justify-center gap-2 mt-8 flex-wrap">
               {screenshots.map((_, idx) => (
                 <button
                   key={idx}
                   onClick={() => setCurrentScreenshot(idx)}
-                  className={`w-3 h-3 rounded-full transition ${
-                    idx === currentScreenshot ? "bg-primary w-8" : "bg-border hover:bg-muted-foreground"
+                  className={`w-2 h-2 rounded-full transition ${
+                    idx === currentScreenshot ? "bg-primary w-6" : "bg-border hover:bg-muted-foreground"
                   }`}
                 />
               ))}
@@ -370,7 +476,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Personalization Section - Expanded to 10 scenarios */}
+      {/* Personalization Section */}
       <section id="personalization" className="py-20 md:py-32 bg-white">
         <div className="container">
           <div className="text-center mb-16">
