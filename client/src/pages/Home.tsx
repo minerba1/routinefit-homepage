@@ -1,15 +1,49 @@
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowRight, CheckCircle2, Zap, Heart, TrendingUp, Users } from "lucide-react";
+import { ArrowRight, CheckCircle2, Zap, Heart, TrendingUp, Users, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
 
 /**
- * RoutineFit Homepage
+ * RoutineFit Homepage - Korean Version
  * Design Philosophy: Trust + Stability (의료 앱의 신뢰감 우선)
  * Color Palette: Primary Green (#10B981), Primary Blue (#0EA5E9), Accent Teal (#14B8A6)
  * Typography: Noto Sans KR (모든 연령대 가독성 최적화)
  */
 
 export default function Home() {
+  const [currentScreenshot, setCurrentScreenshot] = useState(0);
+
+  const screenshots = [
+    {
+      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/app-screenshot-1-i3VupBqHFaKEMGXMHNf2wP.webp",
+      title: "홈 대시보드",
+      desc: "오늘의 건강 점수와 주요 지표를 한눈에 확인하세요"
+    },
+    {
+      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/app-screenshot-2-WAg4M3sPkRH5LbPEBpG5MC.webp",
+      title: "음식 기록",
+      desc: "사진 한 장으로 음식을 인식하고 영양 정보를 자동 분석"
+    },
+    {
+      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/app-screenshot-3-nmBgpxTR59GZWsFs4rinib.webp",
+      title: "주간 리포트",
+      desc: "건강 개선 추이를 시각화하고 AI 인사이트를 받아보세요"
+    },
+    {
+      image: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/app-screenshot-4-95KzGKAR7rxg9sFP6ipRc.webp",
+      title: "AI 어시스턴트",
+      desc: "언제든 AI 건강 어시스턴트와 상담하세요"
+    }
+  ];
+
+  const nextScreenshot = () => {
+    setCurrentScreenshot((prev) => (prev + 1) % screenshots.length);
+  };
+
+  const prevScreenshot = () => {
+    setCurrentScreenshot((prev) => (prev - 1 + screenshots.length) % screenshots.length);
+  };
+
   return (
     <div className="min-h-screen bg-white">
       {/* Navigation */}
@@ -24,6 +58,7 @@ export default function Home() {
           <div className="hidden md:flex items-center gap-8">
             <a href="#features" className="text-foreground hover:text-primary transition">기능</a>
             <a href="#target" className="text-foreground hover:text-primary transition">대상</a>
+            <a href="#screenshots" className="text-foreground hover:text-primary transition">앱 화면</a>
             <a href="#faq" className="text-foreground hover:text-primary transition">FAQ</a>
           </div>
           <Button className="bg-primary hover:bg-primary/90">앱 다운로드</Button>
@@ -63,7 +98,7 @@ export default function Home() {
             </div>
             <div className="relative">
               <img 
-                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/hero-main-5DXfRcQjhApsF3ezqvsMmk.webp"
+                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/hero-korean-AktcM38Tep8mvLTKPkjFvE.webp"
                 alt="루틴핏 앱 인터페이스"
                 className="w-full h-auto rounded-2xl shadow-2xl"
               />
@@ -175,7 +210,7 @@ export default function Home() {
 
           <div className="mb-12">
             <img 
-              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/feature-easy-input-AvHs4JkTsUsLdEjQwwVboG.webp"
+              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/feature-easy-input-korean-3kXg84P9wzY54poS7Hm98x.webp"
               alt="3초 입력 기능"
               className="w-full h-auto rounded-2xl shadow-lg"
             />
@@ -209,8 +244,90 @@ export default function Home() {
         </div>
       </section>
 
+      {/* App Screenshots Gallery Section */}
+      <section id="screenshots" className="py-20 md:py-32 bg-secondary/30">
+        <div className="container">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              루틴핏 앱 화면 둘러보기
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              앱의 주요 기능을 직관적으로 확인하세요
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <div className="relative bg-white rounded-2xl shadow-2xl overflow-hidden">
+              {/* Screenshot Display */}
+              <div className="relative aspect-video md:aspect-auto md:h-[600px] flex items-center justify-center bg-gray-50">
+                <img
+                  src={screenshots[currentScreenshot].image}
+                  alt={screenshots[currentScreenshot].title}
+                  className="h-full w-auto object-contain"
+                />
+              </div>
+
+              {/* Navigation Buttons */}
+              <button
+                onClick={prevScreenshot}
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg hover:shadow-xl transition flex items-center justify-center hover:bg-primary hover:text-white"
+              >
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+              <button
+                onClick={nextScreenshot}
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 bg-white rounded-full shadow-lg hover:shadow-xl transition flex items-center justify-center hover:bg-primary hover:text-white"
+              >
+                <ChevronRight className="w-6 h-6" />
+              </button>
+
+              {/* Info Section */}
+              <div className="bg-gradient-to-r from-primary to-accent p-6 md:p-8 text-white">
+                <h3 className="text-2xl font-bold mb-2">{screenshots[currentScreenshot].title}</h3>
+                <p className="text-white/90">{screenshots[currentScreenshot].desc}</p>
+              </div>
+            </div>
+
+            {/* Dots Indicator */}
+            <div className="flex justify-center gap-2 mt-8">
+              {screenshots.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setCurrentScreenshot(idx)}
+                  className={`w-3 h-3 rounded-full transition ${
+                    idx === currentScreenshot ? "bg-primary w-8" : "bg-border hover:bg-muted-foreground"
+                  }`}
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Personalization Section */}
+      <section className="py-20 md:py-32 bg-white">
+        <div className="container">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              모든 사람을 위한 맞춤형 솔루션
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              루틴핏의 AI는 당신을 이해하고, 건강한 삶을 설계합니다.
+            </p>
+          </div>
+
+          <div className="mb-12">
+            <img 
+              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/feature-personalization-korean-i2kXiBTD7PuwKuJKNRcwdh.webp"
+              alt="AI 개인화 기능"
+              className="w-full h-auto rounded-2xl shadow-lg"
+            />
+          </div>
+        </div>
+      </section>
+
       {/* Target Audience Section */}
-      <section id="target" className="py-20 md:py-32 bg-white">
+      <section id="target" className="py-20 md:py-32 bg-secondary/30">
         <div className="container">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -219,14 +336,6 @@ export default function Home() {
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
               루틴핏은 건강 관리가 필요한 모든 사람을 위한 앱입니다.
             </p>
-          </div>
-
-          <div className="mb-12">
-            <img 
-              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/feature-personalization-DDK7wPRSrgVs9x37Noymsw.webp"
-              alt="다양한 타겟 사용자"
-              className="w-full h-auto rounded-2xl shadow-lg"
-            />
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
@@ -258,6 +367,28 @@ export default function Home() {
                 </div>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonial Section */}
+      <section className="py-20 md:py-32 bg-white">
+        <div className="container">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              사용자 후기
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              루틴핏과 함께 건강한 변화를 경험한 사용자들의 이야기
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <img 
+              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/testimonial-korean-2xJxMu5Vy7mWpeTJ5Xv42s.webp"
+              alt="사용자 후기"
+              className="w-full h-auto rounded-2xl shadow-lg"
+            />
           </div>
         </div>
       </section>
