@@ -4,8 +4,8 @@ import { ArrowRight, CheckCircle2, Zap, Heart, TrendingUp, Users, ChevronLeft, C
 import { useState } from "react";
 
 /**
- * RoutineFit Homepage - Korean Version
- * Design Philosophy: Trust + Stability (의료 앱의 신뢰감 우선)
+ * RoutineFit Homepage - Korean Version (Updated)
+ * Design Philosophy: Trust + Stability + Food-Centric (음식 중심의 건강 관리)
  * Color Palette: Primary Green (#10B981), Primary Blue (#0EA5E9), Accent Teal (#14B8A6)
  * Typography: Noto Sans KR (모든 연령대 가독성 최적화)
  */
@@ -57,7 +57,8 @@ export default function Home() {
           </div>
           <div className="hidden md:flex items-center gap-8">
             <a href="#features" className="text-foreground hover:text-primary transition">기능</a>
-            <a href="#target" className="text-foreground hover:text-primary transition">대상</a>
+            <a href="#cooking" className="text-foreground hover:text-primary transition">음식</a>
+            <a href="#personalization" className="text-foreground hover:text-primary transition">맞춤형</a>
             <a href="#screenshots" className="text-foreground hover:text-primary transition">앱 화면</a>
             <a href="#faq" className="text-foreground hover:text-primary transition">FAQ</a>
           </div>
@@ -159,7 +160,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* 4 Health Elements Section */}
+      {/* 4 Health Elements Section - Updated with Korean Image */}
       <section className="py-20 md:py-32 bg-white">
         <div className="container">
           <div className="text-center mb-16">
@@ -173,25 +174,10 @@ export default function Home() {
 
           <div className="relative mb-12">
             <img 
-              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/feature-health-elements-NvKUL67XqFbkoAVUXZFteu.webp"
+              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/health-4-elements-korean-4sbv6UD9B38MUNjULsi4fU.webp"
               alt="건강의 4대 요소"
               className="w-full h-auto rounded-2xl shadow-lg"
             />
-          </div>
-
-          <div className="grid md:grid-cols-4 gap-6">
-            {[
-              { icon: "🍽️", title: "좋은 음식", desc: "질환별 기준 수립, 개인 맞춤 식단 추천" },
-              { icon: "🏃", title: "좋은 움직임", desc: "운동·일·활동 통합 분석, 근무환경 기록" },
-              { icon: "🚽", title: "좋은 배변", desc: "음식·움직임의 결과, 이상 신호 감지" },
-              { icon: "😴", title: "좋은 휴식", desc: "수면 패턴 분석, 회복력 모니터링" }
-            ].map((element, idx) => (
-              <Card key={idx} className="p-6 text-center hover:shadow-lg transition">
-                <div className="text-4xl mb-4">{element.icon}</div>
-                <h3 className="font-bold text-foreground mb-2">{element.title}</h3>
-                <p className="text-sm text-muted-foreground">{element.desc}</p>
-              </Card>
-            ))}
           </div>
         </div>
       </section>
@@ -240,6 +226,86 @@ export default function Home() {
                 <p className="text-muted-foreground">{feature.desc}</p>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* AI Cooking Recommendation Section - NEW */}
+      <section id="cooking" className="py-20 md:py-32 bg-green-50">
+        <div className="container">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
+              AI 맞춤 요리 추천
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              루틴핏의 가장 강력한 기능 - 냉장고 재료로 당신의 건강을 위한 요리를 추천받으세요
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 mb-12">
+            {[
+              {
+                step: "1",
+                title: "냉장고 재료 촬영",
+                desc: "냉장고 안의 재료들을 사진으로 찍어 AI에게 전달하세요."
+              },
+              {
+                step: "2",
+                title: "AI 분석 및 제안",
+                desc: "AI가 당신의 건강 상태, 영양 필요도, 요리 능력을 고려해 3가지 요리를 추천합니다."
+              },
+              {
+                step: "3",
+                title: "최적의 요리 선택",
+                desc: "추천된 요리 중 가장 적합한 것을 선택하고, 실시간 조리법 가이드를 받으세요."
+              }
+            ].map((item, idx) => (
+              <Card key={idx} className="p-8 bg-white border-2 border-primary/20 hover:border-primary transition">
+                <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center mb-4 text-xl font-bold">
+                  {item.step}
+                </div>
+                <h3 className="text-lg font-bold text-foreground mb-3">{item.title}</h3>
+                <p className="text-muted-foreground">{item.desc}</p>
+              </Card>
+            ))}
+          </div>
+
+          <div className="bg-white rounded-2xl p-8 border-2 border-primary/20">
+            <h3 className="text-2xl font-bold text-foreground mb-6">AI 요리 추천의 기준</h3>
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <h4 className="font-bold text-primary mb-4">AI가 고려하는 요소</h4>
+                <ul className="space-y-3">
+                  {[
+                    "현재의 건강 상태 (혈당, 혈압, 체중 등)",
+                    "현재 영양 상태 및 부족한 영양소",
+                    "냉장고 안의 재료 보유 현황",
+                    "사용자의 요리 능력 정도"
+                  ].map((item, idx) => (
+                    <li key={idx} className="flex items-start gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="text-foreground">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-bold text-primary mb-4">제안 시 중점 사항</h4>
+                <ul className="space-y-3">
+                  {[
+                    "요리의 영양가 - 건강에 최적화",
+                    "요리의 난이도 - 실제 조리 가능성",
+                    "재료의 가성비 - 경제적 효율성",
+                    "조리 시간 - 바쁜 일상에 맞춤"
+                  ].map((item, idx) => (
+                    <li key={idx} className="flex items-start gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
+                      <span className="text-foreground">{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -304,30 +370,83 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Personalization Section */}
-      <section className="py-20 md:py-32 bg-white">
+      {/* Personalization Section - Expanded to 10 scenarios */}
+      <section id="personalization" className="py-20 md:py-32 bg-white">
         <div className="container">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               모든 사람을 위한 맞춤형 솔루션
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              루틴핏의 AI는 당신을 이해하고, 건강한 삶을 설계합니다.
+              루틴핏의 AI는 당신의 상황을 이해하고, 건강한 삶을 설계합니다.
             </p>
           </div>
 
-          <div className="mb-12">
-            <img 
-              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/feature-personalization-korean-i2kXiBTD7PuwKuJKNRcwdh.webp"
-              alt="AI 개인화 기능"
-              className="w-full h-auto rounded-2xl shadow-lg"
-            />
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              {
+                icon: "🩸",
+                title: "혈압 관리",
+                desc: "고혈압으로 고민하는 분들을 위해 저염 식단과 운동 루틴을 맞춤 제안합니다."
+              },
+              {
+                icon: "🍬",
+                title: "혈당 관리",
+                desc: "당뇨 전단계 또는 당뇨병 환자를 위한 혈당 안정화 식단과 활동 계획을 제공합니다."
+              },
+              {
+                icon: "⚖️",
+                title: "체중 감량",
+                desc: "건강한 체중 감량을 위해 개인의 기초대사량을 고려한 식단과 운동을 제안합니다."
+              },
+              {
+                icon: "💪",
+                title: "근력 증강",
+                desc: "근손실 예방과 근력 강화가 필요한 분들을 위한 단백질 식단과 운동 프로그램을 제공합니다."
+              },
+              {
+                icon: "🦴",
+                title: "골다공증 예방",
+                desc: "칼슘과 비타민D 섭취를 강화하고 뼈 건강을 위한 운동을 추천합니다."
+              },
+              {
+                icon: "🧠",
+                title: "피로 회복",
+                desc: "만성 피로를 겪는 분들을 위해 에너지 보충 식단과 휴식 패턴을 최적화합니다."
+              },
+              {
+                icon: "🫀",
+                title: "심혈관 건강",
+                desc: "심장 건강을 위해 오메가3 식단과 유산소 운동을 맞춤 구성합니다."
+              },
+              {
+                icon: "🌙",
+                title: "수면 개선",
+                desc: "불면증 개선을 위해 저녁 식단, 카페인 섭취 시간, 휴식 루틴을 최적화합니다."
+              },
+              {
+                icon: "🫧",
+                title: "소화 건강",
+                desc: "소화 불편함을 겪는 분들을 위해 장 건강 식단과 배변 활동을 추적합니다."
+              },
+              {
+                icon: "✨",
+                title: "피부 건강",
+                desc: "피부 건강을 위해 항산화 식품과 수분 섭취, 수면 패턴을 종합 관리합니다."
+              }
+            ].map((scenario, idx) => (
+              <Card key={idx} className="p-6 hover:shadow-lg transition border-2 border-primary/10 hover:border-primary/30">
+                <div className="text-3xl mb-3">{scenario.icon}</div>
+                <h3 className="text-lg font-bold text-foreground mb-2">{scenario.title}</h3>
+                <p className="text-muted-foreground text-sm">{scenario.desc}</p>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Target Audience Section */}
-      <section id="target" className="py-20 md:py-32 bg-secondary/30">
+      <section className="py-20 md:py-32 bg-secondary/30">
         <div className="container">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
@@ -423,49 +542,6 @@ export default function Home() {
               <Card key={idx} className="p-8 bg-white border-2 border-accent/20 hover:border-accent transition">
                 <h3 className="text-lg font-bold text-foreground mb-3">{advantage.title}</h3>
                 <p className="text-muted-foreground">{advantage.desc}</p>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Revenue Model Section */}
-      <section className="py-20 md:py-32 bg-white">
-        <div className="container">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-              루틴핏의 수익 모델
-            </h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              지속 가능한 비즈니스 모델로 장기적 서비스 제공을 보장합니다.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {[
-              {
-                title: "구독 모델 (B2C)",
-                items: ["무료: 기본 기록·조회", "유료: 개인화 분석·코칭", "프리미엄: 전문 건강 코치"]
-              },
-              {
-                title: "추천 커머스",
-                items: ["맞춤 식품 추천", "저염·저당 식품 큐레이션", "건강 밀키트 정기 구독"]
-              },
-              {
-                title: "B2B 기관 솔루션",
-                items: ["병원 외래 환자 관리", "보험사 건강 점수 상품", "기업 직원 건강 솔루션"]
-              }
-            ].map((model, idx) => (
-              <Card key={idx} className="p-8 bg-gradient-to-br from-blue-50 to-white border-2 border-primary/20">
-                <h3 className="text-lg font-bold text-foreground mb-6">{model.title}</h3>
-                <ul className="space-y-3">
-                  {model.items.map((item, itemIdx) => (
-                    <li key={itemIdx} className="flex items-center gap-3">
-                      <CheckCircle2 className="w-5 h-5 text-primary flex-shrink-0" />
-                      <span className="text-muted-foreground">{item}</span>
-                    </li>
-                  ))}
-                </ul>
               </Card>
             ))}
           </div>
