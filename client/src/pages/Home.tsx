@@ -442,7 +442,8 @@ export default function Home() {
       subtitle: "고혈압·당뇨",
       need: "매일 약 먹는 것을 깜빡하고, 식단이 혈당·혈압에 어떤 영향을 미치는지 파악하기 어렵습니다.",
       solution: "식사 기록 분석으로 혈당 스파이크 경고, 복약 알림, 저염·저당 대체 식재료를 구체적으로 추천합니다.",
-      videoId: "VIDEO_ID_1", // YouTube ID로 교체
+      image: "/s01_chronic_disease.jpg",
+      videoId: "VIDEO_ID_1",
     },
     {
       icon: <Activity className="w-7 h-7" />,
@@ -454,6 +455,7 @@ export default function Home() {
       subtitle: "탈모·두피 루틴",
       need: "비싼 탈모 샴푸를 써도 효과가 없고, 스트레스 받은 날 머리카락이 더 빠지는 것 같아 불안합니다.",
       solution: "스트레스 지수와 수면 패턴을 탈모 증상과 교차 분석하고, 비오틴·단백질 섭취량을 모니터링합니다.",
+      image: "/s02_hair_scalp.jpg",
       videoId: "VIDEO_ID_2",
     },
     {
@@ -466,6 +468,7 @@ export default function Home() {
       subtitle: "수면장애·만성피로",
       need: "충분히 잤는데도 아침에 개운하지 않고, 오후 3시면 극심한 피로감이 옵니다.",
       solution: "카페인 섭취 시간과 수면의 질을 분석해 최적 타이밍을 가이드하고, 비타민B·마그네슘 식단을 추천합니다.",
+      image: "/s03_sleep_fatigue.jpg",
       videoId: "VIDEO_ID_3",
     },
     {
@@ -478,6 +481,7 @@ export default function Home() {
       subtitle: "다이어트·감량",
       need: "극단적 다이어트에 지쳐 있고, 불규칙한 생활 패턴에 맞는 지속 가능한 감량 방법을 찾고 싶습니다.",
       solution: "다량영양소 비율을 정밀 분석하고, 여성은 생리 주기와 연동해 체중 정체기를 예측·멘탈 케어합니다.",
+      image: "/s04_weight_diet.jpg",
       videoId: "VIDEO_ID_4",
     },
     {
@@ -490,6 +494,7 @@ export default function Home() {
       subtitle: "관절염·통증",
       need: "비 오는 날이나 무리한 날 무릎·허리 통증이 심해지고, 운동을 쉬어야 할지 해야 할지 판단이 어렵습니다.",
       solution: "기상 데이터와 활동량·통증 기록을 연동해 통증 악화일을 사전 경고하고, 저강도 맞춤 운동을 제안합니다.",
+      image: "/s05_joint_pain.jpg",
       videoId: "VIDEO_ID_1",
     },
     {
@@ -502,6 +507,7 @@ export default function Home() {
       subtitle: "우울·불안장애",
       need: "감정 기복이 심하지만 원인을 모르고, 병원 상담 전 심리 상태를 객관적 데이터로 확인하고 싶습니다.",
       solution: "수면 부족·당류 과다 섭취가 감정에 미치는 영향을 리포트로 제공하고, 불안 패턴 감지 시 호흡 명상을 안내합니다.",
+      image: "/s06_mental_health.jpg",
       videoId: "VIDEO_ID_2",
     },
     {
@@ -514,6 +520,7 @@ export default function Home() {
       subtitle: "갑상선·호르몬 불균형",
       need: "식사량이 늘지 않았는데 체중이 증가하고, 이게 약 때문인지 생활 습관 때문인지 구분하고 싶습니다.",
       solution: "약 복용 시간과 피로감의 상관관계를 그래프로 분석하고, 요오드 섭취량 모니터링과 생체 리듬 가이드를 제공합니다.",
+      image: "/s07_thyroid.jpg",
       videoId: "VIDEO_ID_3",
     },
     {
@@ -526,6 +533,7 @@ export default function Home() {
       subtitle: "소화기 질환·장 건강",
       need: "식사 후 자주 체하거나 가스가 차고, 어떤 식재료가 내 장에 맞지 않는지 과학적으로 찾고 싶습니다.",
       solution: "식사 기록과 소화 불량 증상을 FODMAP 데이터와 교차 분석해 개인별 트리거 음식을 도출합니다.",
+      image: "/s08_gut_health.jpg",
       videoId: "VIDEO_ID_4",
     },
     {
@@ -538,6 +546,7 @@ export default function Home() {
       subtitle: "운동 재활·부상 회복",
       need: "수술·부상 후 회복 중이며, 어느 정도 강도로 움직여야 관절에 무리가 가지 않는지 항상 불안합니다.",
       solution: "아연·고품질 단백질 위주 식단을 매일 추천하고, 점진적 과부하 원칙에 따른 주차별 안전 활동량 목표를 설정합니다.",
+      image: "/s09_rehabilitation.jpg",
       videoId: "VIDEO_ID_1",
     },
     {
@@ -550,6 +559,7 @@ export default function Home() {
       subtitle: "가족 건강 통합",
       need: "멀리 사는 고령 부모님이 식사와 복약을 잘 챙기시는지 항상 걱정하며 확인하고 싶습니다.",
       solution: "부모님 앱 사용 기록을 바탕으로 보호자에게 주간 요약 리포트를 자동 발송하고, 누락 시 즉시 알림을 보냅니다.",
+      image: "/s10_family_care.jpg",
       videoId: "VIDEO_ID_2",
     },
   ];
@@ -561,28 +571,28 @@ export default function Home() {
       title: "루틴핏 소개 영상",
       desc: "당신만을 위한 AI 건강 주치의, 루틴핏을 소개합니다.",
       youtubeId: "PROMO_VIDEO_ID_1",
-      thumbnail: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/hero-korean-AktcM38Tep8mvLTKPkjFvE.webp",
+      thumbnail: "/promo1_health_app.jpg",
     },
     {
       id: "promo2",
       title: "3초 입력 기능 소개",
       desc: "사진·음성·텍스트로 3초 만에 기록하는 방법을 알아보세요.",
       youtubeId: "PROMO_VIDEO_ID_2",
-      thumbnail: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/feature-easy-input-korean-3kXg84P9wzY54poS7Hm98x.webp",
+      thumbnail: "/promo2_voice_input.jpg",
     },
     {
       id: "promo3",
       title: "AI 맞춤 요리 추천",
       desc: "냉장고 재료로 나만의 건강 요리를 추천받는 과정을 보여드립니다.",
       youtubeId: "PROMO_VIDEO_ID_3",
-      thumbnail: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/cooking-step2-ai-analysis-RrVBjMsKgdNtMiRStm9w85.webp",
+      thumbnail: "/promo3_cooking.jpg",
     },
     {
       id: "promo4",
       title: "10가지 맞춤형 솔루션",
       desc: "만성질환부터 가족 돌봄까지, 루틴핏의 10가지 맞춤형 건강 솔루션을 소개합니다.",
       youtubeId: "PROMO_VIDEO_ID_4",
-      thumbnail: "https://d2xsxph8kpxj0f.cloudfront.net/310519663607358559/7unLf8XtsqoDAFGSxfpHx2/health-4-elements-korean-4sbv6UD9B38MUNjULsi4fU.webp",
+      thumbnail: "/promo4_solutions.jpg",
     },
   ];
 
@@ -909,6 +919,18 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
+
+                {/* 카드 이미지 */}
+                {s.image && (
+                  <div className="relative h-44 overflow-hidden">
+                    <img
+                      src={s.image}
+                      alt={s.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    <div className={`absolute inset-0 bg-gradient-to-t ${s.color} opacity-20`} />
+                  </div>
+                )}
 
                 {/* 카드 본문 */}
                 <div className={`p-5 ${s.bgLight}`}>
