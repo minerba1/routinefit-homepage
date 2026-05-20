@@ -43,91 +43,52 @@
 }
 
 :root {
-  /* RoutineFit Brand Colors */
-  --primary: #10B981; /* Primary Green */
-  --primary-foreground: #F9FAFB;
-  --sidebar-primary: #0EA5E9; /* Primary Blue */
-  --sidebar-primary-foreground: #F9FAFB;
-  --chart-1: #10B981;
-  --chart-2: #0EA5E9;
-  --chart-3: #14B8A6;
-  --chart-4: #F97316;
-  --chart-5: #059669;
-  --radius: 0.5rem;
-  --background: #FFFFFF;
-  --foreground: #1F2937;
-  --card: #FFFFFF;
-  --card-foreground: #1F2937;
-  --popover: #FFFFFF;
-  --popover-foreground: #1F2937;
-  --secondary: #F3F4F6;
-  --secondary-foreground: #374151;
-  --muted: #E5E7EB;
-  --muted-foreground: #6B7280;
-  --accent: #14B8A6;
-  --accent-foreground: #FFFFFF;
-  --destructive: #EF4444;
-  --destructive-foreground: #FFFFFF;
-  --border: #E5E7EB;
-  --input: #FFFFFF;
-  --ring: #10B981;
-  --sidebar: #FFFFFF;
-  --sidebar-foreground: #1F2937;
-  --sidebar-accent: #10B981;
-  --sidebar-accent-foreground: #FFFFFF;
-  --sidebar-border: #E5E7EB;
-  --sidebar-ring: #10B981;
-}
-
-.dark {
-  --primary: var(--color-blue-700);
-  --primary-foreground: var(--color-blue-50);
-  --sidebar-primary: var(--color-blue-500);
-  --sidebar-primary-foreground: var(--color-blue-50);
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.85 0.005 65);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.85 0.005 65);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.85 0.005 65);
-  --secondary: oklch(0.24 0.006 286.033);
-  --secondary-foreground: oklch(0.7 0.005 65);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.274 0.006 286.033);
-  --accent-foreground:  oklch(0.92 0.005 65);
-  --destructive: oklch(0.704 0.191 22.216);
+  /* 루틴핏 브랜드 컬러 - Emerald Green */
+  --primary: oklch(0.527 0.154 150.069);        /* emerald-600 */
+  --primary-foreground: oklch(0.985 0.001 150);  /* near-white */
+  --sidebar-primary: oklch(0.527 0.154 150.069);
+  --sidebar-primary-foreground: oklch(0.985 0.001 150);
+  --chart-1: oklch(0.696 0.17 162.48);
+  --chart-2: oklch(0.527 0.154 150.069);
+  --chart-3: oklch(0.448 0.119 151.328);
+  --chart-4: oklch(0.368 0.099 152.535);
+  --chart-5: oklch(0.266 0.065 152.934);
+  --radius: 0.65rem;
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.2 0.01 150);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2 0.01 150);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0.01 150);
+  --secondary: oklch(0.97 0.005 150);
+  --secondary-foreground: oklch(0.4 0.01 150);
+  --muted: oklch(0.965 0.004 150);
+  --muted-foreground: oklch(0.55 0.02 150);
+  --accent: oklch(0.965 0.004 150);
+  --accent-foreground: oklch(0.2 0.01 150);
+  --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(0.985 0 0);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.488 0.243 264.376);
-  --chart-1: var(--color-blue-300);
-  --chart-2: var(--color-blue-500);
-  --chart-3: var(--color-blue-600);
-  --chart-4: var(--color-blue-700);
-  --chart-5: var(--color-blue-800);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.85 0.005 65);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground:  oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.488 0.243 264.376);
+  --border: oklch(0.91 0.008 150);
+  --input: oklch(0.91 0.008 150);
+  --ring: oklch(0.527 0.154 150.069);
+  --sidebar: oklch(0.985 0.003 150);
+  --sidebar-foreground: oklch(0.2 0.01 150);
+  --sidebar-accent: oklch(0.965 0.004 150);
+  --sidebar-accent-foreground: oklch(0.2 0.01 150);
+  --sidebar-border: oklch(0.91 0.008 150);
+  --sidebar-ring: oklch(0.527 0.154 150.069);
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
-  html {
-    font-family: 'Noto Sans KR', sans-serif;
-  }
   body {
     @apply bg-background text-foreground;
     font-family: 'Noto Sans KR', sans-serif;
   }
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Noto Sans KR', sans-serif;
-    font-weight: 700;
+  h1, h2, h3 {
+    font-family: 'Noto Serif KR', serif;
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -143,24 +104,11 @@
 }
 
 @layer components {
-  /**
-   * Custom container utility that centers content and adds responsive padding.
-   *
-   * This overrides Tailwind's default container behavior to:
-   * - Auto-center content (mx-auto)
-   * - Add responsive horizontal padding
-   * - Set max-width for large screens
-   *
-   * Usage: <div className="container">...</div>
-   *
-   * For custom widths, use max-w-* utilities directly:
-   * <div className="max-w-6xl mx-auto px-4">...</div>
-   */
   .container {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1rem; /* 16px - mobile padding */
+    padding-left: 1rem;
     padding-right: 1rem;
   }
 
@@ -171,16 +119,62 @@
 
   @media (min-width: 640px) {
     .container {
-      padding-left: 1.5rem; /* 24px - tablet padding */
+      padding-left: 1.5rem;
       padding-right: 1.5rem;
     }
   }
 
   @media (min-width: 1024px) {
     .container {
-      padding-left: 2rem; /* 32px - desktop padding */
+      padding-left: 2rem;
       padding-right: 2rem;
-      max-width: 1280px; /* Standard content width */
+      max-width: 1280px;
     }
   }
+}
+
+/* ── 애니메이션 ── */
+@keyframes contentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tabPanelEnter {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.content-fade-in {
+  animation: contentFadeIn 0.25s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+.tab-panel-enter {
+  animation: tabPanelEnter 0.2s cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+
+/* 스크롤바 숨기기 */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* 버튼 액티브 효과 */
+button:active:not(:disabled) {
+  transform: scale(0.97);
+  transition: transform 0.1s ease-out;
 }
