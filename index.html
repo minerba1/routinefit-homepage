@@ -272,6 +272,29 @@ nav {
   background-position: center;
 }
 
+/* ── v67: MP4 비디오 슬라이드 (Ken Burns 효과) ── */
+.slide-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  pointer-events: none;
+  /* Ken Burns 초기 상태 — active 진입 시 5초간 1.0 → 1.12 줌인 */
+  transform: scale(1.0);
+  will-change: transform;
+}
+
+.slide.active .slide-video {
+  animation: kenBurnsZoom 5s ease-out forwards;
+}
+
+@keyframes kenBurnsZoom {
+  0%   { transform: scale(1.0) translate(0, 0); }
+  100% { transform: scale(1.12) translate(-1%, -1%); }
+}
+
 /* ── 어두운 오버레이 (opacity 0.35 — 이미지 선명도 보장) ── */
 .slide::before {
   content: '';
@@ -279,6 +302,7 @@ nav {
   inset: 0;
   background: rgba(10,14,26,0.35);
   z-index: 1;
+  pointer-events: none;
 }
 
 /* ── 각 슬라이드 텍스트 오버레이 (0~2초: 숨김 → 2초 후 fadeIn) ── */
@@ -1105,6 +1129,9 @@ footer {
 
     <!-- ⑤ 아침 -->
     <div class="slide active">
+      <video class="slide-video" autoplay muted loop playsinline preload="auto" poster="assets/hero-01-morning.jpg">
+        <source src="assets/hero-01-morning.mp4" type="video/mp4">
+      </video>
       <div class="slide-text">
         <div class="slide-text-inner">
           <div class="slide-label">RoutineFit · 수면 & 아침 분석</div>
@@ -1115,6 +1142,9 @@ footer {
 
     <!-- ③ 삼겹살 -->
     <div class="slide">
+      <video class="slide-video" muted loop playsinline preload="auto" poster="assets/hero-02-bbq.jpg">
+        <source src="assets/hero-02-bbq.mp4" type="video/mp4">
+      </video>
       <div class="slide-text">
         <div class="slide-text-inner">
           <div class="slide-label">RoutineFit · 음식 기준 학습</div>
@@ -1125,6 +1155,9 @@ footer {
 
     <!-- ⑦ 식당 -->
     <div class="slide">
+      <video class="slide-video" muted loop playsinline preload="auto" poster="assets/hero-03-restaurant.jpg">
+        <source src="assets/hero-03-restaurant.mp4" type="video/mp4">
+      </video>
       <div class="slide-text">
         <div class="slide-text-inner">
           <div class="slide-label">RoutineFit · AI 식당 가이드</div>
@@ -1135,6 +1168,9 @@ footer {
 
     <!-- ⑪ 냉장고 -->
     <div class="slide">
+      <video class="slide-video" muted loop playsinline preload="auto" poster="assets/hero-04-fridge.jpg">
+        <source src="assets/hero-04-fridge.mp4" type="video/mp4">
+      </video>
       <div class="slide-text">
         <div class="slide-text-inner">
           <div class="slide-label">RoutineFit · 냉장고 식단 설계</div>
@@ -1145,6 +1181,9 @@ footer {
 
     <!-- ⑬ AI레시피 -->
     <div class="slide">
+      <video class="slide-video" muted loop playsinline preload="auto" poster="assets/hero-05-recipe.jpg">
+        <source src="assets/hero-05-recipe.mp4" type="video/mp4">
+      </video>
       <div class="slide-text">
         <div class="slide-text-inner">
           <div class="slide-label">RoutineFit · 사진 레시피 분석</div>
@@ -1155,6 +1194,9 @@ footer {
 
     <!-- ⑨ 밤평온 -->
     <div class="slide">
+      <video class="slide-video" muted loop playsinline preload="auto" poster="assets/hero-06-night.jpg">
+        <source src="assets/hero-06-night.mp4" type="video/mp4">
+      </video>
       <div class="slide-text">
         <div class="slide-text-inner">
           <div class="slide-label">RoutineFit · 하루 마감 기록</div>
@@ -1581,6 +1623,18 @@ footer {
 
     slides[current].classList.add('active');
     dots[current].classList.add('active');
+
+    // v67: active 슬라이드 비디오 처음부터 재생 (Ken Burns 애니메이션 재시작)
+    const activeVideo = slides[current].querySelector('.slide-video');
+    if (activeVideo) {
+      try {
+        activeVideo.currentTime = 0;
+        const playPromise = activeVideo.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => { /* autoplay 차단 시 무시 */ });
+        }
+      } catch (e) { /* 일부 브라우저 currentTime 설정 실패 무시 */ }
+    }
   }
 
   function next() { goTo(current + 1); }
