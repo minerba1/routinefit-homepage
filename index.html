@@ -196,83 +196,48 @@ nav {
 .btn-primary:hover { background: var(--green3); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(22,199,132,0.35); }
 
 /* ============================================================
-   S1 HERO: 6장면 슬라이드쇼 (곽봉준 1단계 — 간접 가치 입증)
+   S1 HERO — v68 디로그 클론: 좌 영상 8개 + 우 폰 mockup 동기 전환
    ============================================================ */
 #hero {
   position: relative;
   width: 100%;
   height: 100vh;
-  min-height: 640px;
+  min-height: 720px;
   overflow: hidden;
+  background: #0A0E1A;
 }
 
-/* ── 슬라이드 컨테이너 ── */
-.slides-wrap {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
+.hero-grid {
+  display: grid;
+  grid-template-columns: 65% 35%;
+  height: 100%;
 }
+
+.hero-video-side {
+  position: relative;
+  overflow: hidden;
+  background: #0A0E1A;
+}
+
+.hero-phone-side {
+  position: relative;
+  background: linear-gradient(160deg, #0F1B3D 0%, #0A0E1A 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 30px;
+}
+
+.slides-wrap { position: absolute; inset: 0; z-index: 0; }
 
 .slide {
   position: absolute;
   inset: 0;
   opacity: 0;
   transition: opacity 1.2s ease;
-  /* 배경 이미지 fallback: CSS gradient (이미지 로드 전) */
 }
-
 .slide.active { opacity: 1; }
 
-/* 각 슬라이드 배경 — 이미지 파일명은 assets/ 폴더 업로드 후 자동 적용 */
-/* ⑤ 아침 — assets/hero-01-morning.jpg (캔바 후보 중 선택 후 export) */
-.slide:nth-child(1) {
-  background: linear-gradient(145deg, #0B3B2E 0%, #0A0E1A 100%);
-  background-image: url('assets/hero-01-morning.jpg');
-  background-size: cover;
-  background-position: center;
-}
-
-/* ③ 삼겹살 — assets/hero-02-bbq.jpg (캔바 DAHL2VRVmNo export) */
-.slide:nth-child(2) {
-  background: linear-gradient(145deg, #2D1800 0%, #0A0E1A 100%);
-  background-image: url('assets/hero-02-bbq.jpg');
-  background-size: cover;
-  background-position: center;
-}
-
-/* ⑦ 식당 — assets/hero-03-restaurant.jpg (캔바 후보 중 선택 후 export) */
-.slide:nth-child(3) {
-  background: linear-gradient(145deg, #0A1A2D 0%, #0A0E1A 100%);
-  background-image: url('assets/hero-03-restaurant.jpg');
-  background-size: cover;
-  background-position: center;
-}
-
-/* ⑪ 냉장고 — assets/hero-04-fridge.jpg (캔바 DAHL2aSJ_JY export) */
-.slide:nth-child(4) {
-  background: linear-gradient(145deg, #0D2A3A 0%, #0A0E1A 100%);
-  background-image: url('assets/hero-04-fridge.jpg');
-  background-size: cover;
-  background-position: center;
-}
-
-/* ⑬ AI레시피 — assets/hero-05-recipe.jpg (캔바 DAHL2YAUxUE export) */
-.slide:nth-child(5) {
-  background: linear-gradient(145deg, #1A2800 0%, #0A0E1A 100%);
-  background-image: url('assets/hero-05-recipe.jpg');
-  background-size: cover;
-  background-position: center;
-}
-
-/* ⑨ 밤평온 — assets/hero-06-night.jpg (캔바 후보 중 선택 후 export) */
-.slide:nth-child(6) {
-  background: linear-gradient(145deg, #0D0A2E 0%, #0A0E1A 100%);
-  background-image: url('assets/hero-06-night.jpg');
-  background-size: cover;
-  background-position: center;
-}
-
-/* ── v67: MP4 비디오 슬라이드 (Ken Burns 효과) ── */
 .slide-video {
   position: absolute;
   inset: 0;
@@ -281,101 +246,178 @@ nav {
   object-fit: cover;
   z-index: 0;
   pointer-events: none;
-  /* Ken Burns 초기 상태 — active 진입 시 5초간 1.0 → 1.12 줌인 */
-  transform: scale(1.0);
-  will-change: transform;
 }
 
-.slide.active .slide-video {
-  animation: kenBurnsZoom 5s ease-out forwards;
-}
-
-@keyframes kenBurnsZoom {
-  0%   { transform: scale(1.0) translate(0, 0); }
-  100% { transform: scale(1.12) translate(-1%, -1%); }
-}
-
-/* ── 어두운 오버레이 (opacity 0.35 — 이미지 선명도 보장) ── */
 .slide::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(10,14,26,0.35);
+  background: linear-gradient(180deg, rgba(10,14,26,0.10) 0%, rgba(10,14,26,0.60) 100%);
   z-index: 1;
   pointer-events: none;
 }
 
-/* ── 각 슬라이드 텍스트 오버레이 (0~2초: 숨김 → 2초 후 fadeIn) ── */
 .slide-text {
   position: absolute;
-  inset: 0;
+  bottom: 90px;
+  left: 56px;
+  right: 56px;
   z-index: 2;
-  display: flex;
-  align-items: flex-end;
-  padding: 0 60px 160px;
 }
 
-.slide-text-inner {
-  opacity: 0;
-  transform: translateY(20px);
-  /* 2초 후 fadeIn — setInterval 4000ms와 맞춰서 0s delay로 첫 진입 시 표시 */
-}
+.slide-text-inner { opacity: 0; transform: translateY(20px); }
+.slide.active .slide-text-inner { animation: fadeSlideUp 0.8s ease 0.8s forwards; }
 
-.slide.active .slide-text-inner {
-  animation: fadeSlideUp 0.8s ease 2s forwards;
-}
-
-@keyframes fadeSlideUp {
-  to { opacity: 1; transform: translateY(0); }
-}
+@keyframes fadeSlideUp { to { opacity: 1; transform: translateY(0); } }
 
 .slide-label {
   font-size: 12px;
   font-weight: 500;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.18em;
   color: var(--green);
   text-transform: uppercase;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .slide-headline {
-  font-size: clamp(28px, 4.5vw, 56px);
+  font-size: clamp(26px, 2.8vw, 44px);
   font-weight: 900;
   color: var(--white);
-  line-height: 1.2;
+  line-height: 1.25;
   letter-spacing: -0.02em;
-  text-shadow: 0 2px 20px rgba(0,0,0,0.5);
-  max-width: 700px;
+  text-shadow: 0 2px 24px rgba(0,0,0,0.65);
+  max-width: 560px;
 }
 
-/* ── Hero 하단: CTA + 인디케이터 ── */
+/* ── 우측 폰 mockup ── */
+.hero-phone-frame {
+  position: relative;
+  width: 290px;
+  max-width: 100%;
+  aspect-ratio: 9/19;
+  background: linear-gradient(160deg, #1A2B5C 0%, #0F1B3D 100%);
+  border-radius: 44px;
+  padding: 11px;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.55), 0 0 0 2px rgba(255,255,255,0.06) inset;
+}
+
+.hero-phone-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  background: #F5F6FA;
+  border-radius: 34px;
+  overflow: hidden;
+}
+
+.hero-phone-screen::before {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 86px;
+  height: 22px;
+  background: #0F1B3D;
+  border-radius: 16px;
+  z-index: 100;
+}
+
+.phone-screen {
+  position: absolute;
+  inset: 0;
+  padding: 40px 14px 14px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+}
+.phone-screen.active { opacity: 1; transform: translateY(0); }
+
+.phone-app-bar {
+  background: var(--green);
+  color: #FFFFFF;
+  border-radius: 12px;
+  padding: 9px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.phone-card {
+  background: #FFFFFF;
+  border-radius: 11px;
+  padding: 11px 12px;
+  font-size: 11px;
+  color: #0F1B3D;
+  border: 1px solid #E8EFF8;
+}
+.phone-card .label { font-size: 9px; color: #6B7796; margin-bottom: 4px; letter-spacing: 0.04em; text-transform: uppercase; }
+.phone-card .value { font-size: 20px; font-weight: 800; color: var(--green); line-height: 1.1; }
+.phone-card .value.sm { font-size: 13px; font-weight: 700; color: #0F1B3D; }
+.phone-card .sub { font-size: 10px; color: #6B7796; margin-top: 4px; line-height: 1.4; }
+.phone-card.ai-bg { background: #EEF6F0; border-color: rgba(22,199,132,0.25); }
+.phone-card.ai-bg .label { color: var(--green); }
+
+.phone-card.with-thumb { display: flex; gap: 10px; align-items: center; }
+.phone-photo-thumb {
+  width: 48px;
+  height: 48px;
+  border-radius: 8px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+}
+.phone-photo-thumb.bbq { background: linear-gradient(135deg, #F0997B 0%, #D85A30 100%); }
+.phone-photo-thumb.menu { background: linear-gradient(135deg, #F4C0D1 0%, #D4537E 100%); }
+.phone-photo-thumb.fridge { background: linear-gradient(135deg, #B5D4F4 0%, #378ADD 100%); }
+.phone-photo-thumb.recipe { background: linear-gradient(135deg, #C0DD97 0%, #639922 100%); }
+.phone-card-content { flex: 1; min-width: 0; }
+.phone-card-content .title { font-size: 11px; font-weight: 700; color: #0F1B3D; margin-bottom: 2px; }
+.phone-card-content .meta { font-size: 9px; color: #6B7796; }
+.phone-card-content .badge { display: inline-block; margin-top: 4px; padding: 2px 6px; background: rgba(22,199,132,0.15); color: var(--green); font-size: 9px; font-weight: 700; border-radius: 4px; }
+
+.phone-graph {
+  width: 100%;
+  height: 56px;
+  margin-top: 6px;
+}
+
+.phone-stat-row {
+  display: flex;
+  gap: 6px;
+}
+.phone-stat {
+  flex: 1;
+  background: #FFFFFF;
+  border-radius: 10px;
+  padding: 8px 10px;
+  border: 1px solid #E8EFF8;
+}
+.phone-stat .stat-label { font-size: 8px; color: #6B7796; text-transform: uppercase; }
+.phone-stat .stat-value { font-size: 14px; font-weight: 800; color: #0F1B3D; line-height: 1.1; }
+.phone-stat .stat-value.green { color: var(--green); }
+
+.phone-check-list { display: flex; flex-direction: column; gap: 6px; }
+.phone-check-item { font-size: 11px; color: #0F1B3D; display: flex; align-items: center; gap: 8px; }
+.phone-check-item::before { content: '✓'; width: 16px; height: 16px; background: var(--green); color: #FFFFFF; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; flex-shrink: 0; }
+
+/* ── 도트 인디케이터 ── */
 .hero-bottom {
   position: absolute;
-  bottom: 48px;
-  left: 60px;
-  right: 60px;
+  bottom: 30px;
+  left: 56px;
   z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
 }
 
-.hero-cta-wrap {
-  display: flex;
-  gap: 14px;
-}
-
-.btn-hero {
-  padding: 14px 28px;
-  font-size: 15px;
-}
-
-/* ── 인디케이터 도트 ── */
-.indicators {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
+.indicators { display: flex; gap: 8px; align-items: center; }
 
 .dot {
   width: 8px;
@@ -385,66 +427,40 @@ nav {
   cursor: pointer;
   transition: all 0.4s ease;
   border: none;
-  outline: none;
+  padding: 0;
+}
+.dot.active { width: 28px; background: var(--green); }
+
+/* ── 반응형 ── */
+@media (max-width: 1000px) {
+  .hero-grid { grid-template-columns: 60% 40%; }
+  .slide-text { left: 32px; right: 32px; bottom: 80px; }
+  .hero-bottom { left: 32px; }
+  .hero-phone-frame { width: 240px; }
 }
 
-.dot.active {
-  width: 28px;
-  background: var(--green);
+@media (max-width: 768px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-phone-side {
+    position: absolute;
+    right: 16px;
+    top: 60px;
+    background: transparent;
+    padding: 0;
+    z-index: 5;
+    align-items: flex-start;
+    justify-content: flex-end;
+  }
+  .hero-phone-frame { width: 150px; }
+  .slide-text { left: 20px; right: 20px; bottom: 90px; }
+  .slide-headline { font-size: clamp(22px, 6vw, 32px); max-width: 100%; }
+  .hero-bottom { left: 20px; bottom: 24px; }
 }
 
-/* ── 메인 슬로건 (Hero 중앙 상단) ── */
-.hero-slogan {
-  position: absolute;
-  top: 50%;
-  left: 60px;
-  right: 60px;
-  transform: translateY(-50%);
-  z-index: 5;
-  pointer-events: none;
+@media (max-width: 480px) {
+  .hero-phone-side { display: none; }
 }
 
-.hero-slogan-main {
-  font-size: clamp(13px, 1.6vw, 18px);
-  font-weight: 300;
-  color: var(--text2);
-  letter-spacing: 0.12em;
-  margin-bottom: 8px;
-}
-
-.hero-slogan-sub {
-  font-size: clamp(36px, 5.5vw, 72px);
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  color: var(--white);
-  text-shadow: 0 4px 30px rgba(0,0,0,0.4);
-}
-
-.hero-slogan-sub .highlight { color: var(--green); }
-
-/* ── 스크롤 힌트 ── */
-.scroll-hint {
-  position: absolute;
-  bottom: 100px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  opacity: 0.5;
-  animation: bounceDown 2s ease-in-out infinite;
-}
-
-.scroll-hint span { font-size: 11px; letter-spacing: 0.15em; color: var(--text2); }
-.scroll-hint-arrow { width: 20px; height: 20px; border-right: 2px solid var(--green); border-bottom: 2px solid var(--green); transform: rotate(45deg); }
-
-@keyframes bounceDown {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(8px); }
-}
 
 
 /* ============================================================
@@ -1122,117 +1138,277 @@ footer {
 
 
 <!-- ====================================================
-     S1 HERO — 6장면 슬라이드쇼 (곽봉준 1단계: 간접 가치 입증)
+     S1 HERO — v68 디로그 클론: 좌 영상 + 우 폰 mockup × 8장면
      ==================================================== -->
 <section id="hero">
-  <div class="slides-wrap">
+  <div class="hero-grid">
 
-    <!-- ⑤ 아침 -->
-    <div class="slide active">
-      <video class="slide-video" autoplay muted loop playsinline preload="auto" poster="assets/hero-01-morning.jpg">
-        <source src="assets/hero-01-morning.mp4" type="video/mp4">
-      </video>
-      <div class="slide-text">
-        <div class="slide-text-inner">
-          <div class="slide-label">RoutineFit · 수면 & 아침 분석</div>
-          <div class="slide-headline">수면을 분석하고,<br>가벼운 아침을 설계합니다</div>
+    <!-- 좌측: 영상 슬라이드 8개 -->
+    <div class="hero-video-side">
+      <div class="slides-wrap">
+
+        <div class="slide active">
+          <video class="slide-video" autoplay muted loop playsinline preload="auto" poster="https://images.pexels.com/videos/7505758/adult-apartment-asleep-attractive-7505758.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200">
+            <source src="https://videos.pexels.com/video-files/7505758/7505758-uhd_1440_2560_30fps.mp4" type="video/mp4">
+          </video>
+          <div class="slide-text">
+            <div class="slide-text-inner">
+              <div class="slide-label">RoutineFit · 수면 & 아침 분석</div>
+              <div class="slide-headline">수면을 분석하고,<br>가벼운 아침을 설계합니다</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide">
+          <video class="slide-video" muted loop playsinline preload="metadata" poster="https://images.pexels.com/videos/4625295/african-american-people-afro-american-man-black-lives-matter-blm-4625295.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200">
+            <source src="https://videos.pexels.com/video-files/4625295/4625295-hd_1920_1080_25fps.mp4" type="video/mp4">
+          </video>
+          <div class="slide-text">
+            <div class="slide-text-inner">
+              <div class="slide-label">RoutineFit · 변화 인증</div>
+              <div class="slide-headline">변화는 주변이<br>먼저 알아챕니다</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide">
+          <video class="slide-video" muted loop playsinline preload="metadata" poster="https://images.pexels.com/videos/4768006/a-korean-bar-korean-dinner-food-korean-food-pork-noodles-4768006.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200">
+            <source src="https://videos.pexels.com/video-files/4768006/4768006-uhd_2560_1440_30fps.mp4" type="video/mp4">
+          </video>
+          <div class="slide-text">
+            <div class="slide-text-inner">
+              <div class="slide-label">RoutineFit · 음식 기준 학습</div>
+              <div class="slide-headline">내 몸 기준을 알면,<br>삼겹살도 당당하게</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide">
+          <video class="slide-video" muted loop playsinline preload="metadata" poster="https://images.pexels.com/videos/4920382/barista-birthday-birthday-cake-birthday-gift-4920382.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200">
+            <source src="https://videos.pexels.com/video-files/4920382/4920382-hd_1920_1080_30fps.mp4" type="video/mp4">
+          </video>
+          <div class="slide-text">
+            <div class="slide-text-inner">
+              <div class="slide-label">RoutineFit · AI 식당 가이드</div>
+              <div class="slide-headline">AI가 내 몸에 맞는<br>선택을 알려줍니다</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide">
+          <video class="slide-video" muted loop playsinline preload="metadata" poster="https://images.pexels.com/videos/7801575/pexels-photo-7801575.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200">
+            <source src="https://videos.pexels.com/video-files/7801575/7801575-uhd_2732_1154_25fps.mp4" type="video/mp4">
+          </video>
+          <div class="slide-text">
+            <div class="slide-text-inner">
+              <div class="slide-label">RoutineFit · 냉장고 식단 설계</div>
+              <div class="slide-headline">냉장고 앞 5분,<br>AI가 오늘 식단을 설계합니다</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide">
+          <video class="slide-video" muted loop playsinline preload="metadata" poster="https://images.pexels.com/videos/3296572/free-video-3296572.jpg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200">
+            <source src="https://videos.pexels.com/video-files/3296572/3296572-uhd_2732_1440_25fps.mp4" type="video/mp4">
+          </video>
+          <div class="slide-text">
+            <div class="slide-text-inner">
+              <div class="slide-label">RoutineFit · 사진 레시피 분석</div>
+              <div class="slide-headline">사진 한 장이<br>나만의 맞춤 레시피가 됩니다</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide">
+          <video class="slide-video" muted loop playsinline preload="metadata" poster="https://images.pexels.com/videos/7659205/pexels-photo-7659205.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200">
+            <source src="https://videos.pexels.com/video-files/7659205/7659205-hd_1080_1920_25fps.mp4" type="video/mp4">
+          </video>
+          <div class="slide-text">
+            <div class="slide-text-inner">
+              <div class="slide-label">RoutineFit · 검진 결과</div>
+              <div class="slide-headline">꾸준한 기록이,<br>좋은 결과로</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="slide">
+          <video class="slide-video" muted loop playsinline preload="metadata" poster="https://images.pexels.com/videos/5983694/pexels-photo-5983694.jpeg?auto=compress&cs=tinysrgb&h=627&fit=crop&w=1200">
+            <source src="https://videos.pexels.com/video-files/5983694/5983694-uhd_2560_1440_25fps.mp4" type="video/mp4">
+          </video>
+          <div class="slide-text">
+            <div class="slide-text-inner">
+              <div class="slide-label">RoutineFit · 하루 마감 기록</div>
+              <div class="slide-headline">오늘 하루가 기록되면,<br>걱정 없이 잠듭니다</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 하단 도트 인디케이터 -->
+      <div class="hero-bottom">
+        <div class="indicators" id="indicators">
+          <button class="dot active" data-idx="0" aria-label="장면 1"></button>
+          <button class="dot" data-idx="1" aria-label="장면 2"></button>
+          <button class="dot" data-idx="2" aria-label="장면 3"></button>
+          <button class="dot" data-idx="3" aria-label="장면 4"></button>
+          <button class="dot" data-idx="4" aria-label="장면 5"></button>
+          <button class="dot" data-idx="5" aria-label="장면 6"></button>
+          <button class="dot" data-idx="6" aria-label="장면 7"></button>
+          <button class="dot" data-idx="7" aria-label="장면 8"></button>
         </div>
       </div>
     </div>
 
-    <!-- ③ 삼겹살 -->
-    <div class="slide">
-      <video class="slide-video" muted loop playsinline preload="auto" poster="assets/hero-02-bbq.jpg">
-        <source src="assets/hero-02-bbq.mp4" type="video/mp4">
-      </video>
-      <div class="slide-text">
-        <div class="slide-text-inner">
-          <div class="slide-label">RoutineFit · 음식 기준 학습</div>
-          <div class="slide-headline">내 몸 기준을 알면,<br>삼겹살도 당당하게</div>
+    <!-- 우측: 스마트폰 mockup (8개 화면 동기 전환) -->
+    <div class="hero-phone-side">
+      <div class="hero-phone-frame">
+        <div class="hero-phone-screen">
+
+      <div class="phone-screen active">
+        <div class="phone-app-bar"><span>루틴핏 · 수면 분석</span><span>오전 6:30</span></div>
+        <div class="phone-card">
+          <div class="label">오늘 수면 점수</div>
+          <div class="value">87점</div>
+          <div class="sub">깊은 수면 2h 30m · 평균보다 +12%</div>
+        </div>
+        <div class="phone-card ai-bg">
+          <div class="label">AI 추천 아침</div>
+          <div class="value sm">계란 + 통밀빵 + 사과</div>
+          <div class="sub">단백질 18g · 식이섬유 5g</div>
+        </div>
+      </div>
+
+      <div class="phone-screen">
+        <div class="phone-app-bar"><span>루틴핏 · 체중 변화</span><span>3개월</span></div>
+        <div class="phone-card">
+          <div class="label">3개월 누적 변화</div>
+          <div class="value">-3.2 kg</div>
+          <svg class="phone-graph" viewBox="0 0 200 56" preserveAspectRatio="none">
+            <polyline points="0,12 25,16 50,14 75,22 100,28 125,32 150,38 175,42 200,46" fill="none" stroke="#16C784" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <polyline points="0,12 25,16 50,14 75,22 100,28 125,32 150,38 175,42 200,46 200,56 0,56" fill="rgba(22,199,132,0.12)" stroke="none"/>
+          </svg>
+        </div>
+        <div class="phone-card ai-bg">
+          <div class="label">이번 주 칭찬</div>
+          <div class="value sm">"얼굴 좋아지셨네요"</div>
+          <div class="sub">친구 3명에게 들었어요</div>
+        </div>
+      </div>
+
+      <div class="phone-screen">
+        <div class="phone-app-bar"><span>루틴핏 · 식사 기록</span><span>오후 12:32</span></div>
+        <div class="phone-card with-thumb">
+          <div class="phone-photo-thumb bbq">🥩</div>
+          <div class="phone-card-content">
+            <div class="title">삼겹살 200g + 상추쌈</div>
+            <div class="meta">자동 인식 완료</div>
+            <span class="badge">320 kcal · OK</span>
+          </div>
+        </div>
+        <div class="phone-card ai-bg">
+          <div class="label">AI 코칭</div>
+          <div class="value sm">단백질 충분, 상추 OK</div>
+          <div class="sub">탄수화물은 저녁에 줄여보세요</div>
+        </div>
+      </div>
+
+      <div class="phone-screen">
+        <div class="phone-app-bar"><span>루틴핏 · 식당 가이드</span><span>오후 12:18</span></div>
+        <div class="phone-card with-thumb">
+          <div class="phone-photo-thumb menu">📋</div>
+          <div class="phone-card-content">
+            <div class="title">메뉴판 분석 완료</div>
+            <div class="meta">8개 메뉴 인식</div>
+            <span class="badge">2개 추천</span>
+          </div>
+        </div>
+        <div class="phone-card ai-bg">
+          <div class="label">대표님 맞춤 추천</div>
+          <div class="value sm">⭐ 나물비빔밥</div>
+          <div class="sub">혈당 부담 적음 · 단백질 ↑</div>
+        </div>
+      </div>
+
+      <div class="phone-screen">
+        <div class="phone-app-bar"><span>루틴핏 · 냉장고 설계</span><span>오후 5:42</span></div>
+        <div class="phone-card with-thumb">
+          <div class="phone-photo-thumb fridge">🥬</div>
+          <div class="phone-card-content">
+            <div class="title">냉장고 사진 분석</div>
+            <div class="meta">12가지 재료 인식</div>
+            <span class="badge">3가지 메뉴</span>
+          </div>
+        </div>
+        <div class="phone-card ai-bg">
+          <div class="label">오늘 저녁 추천</div>
+          <div class="value sm">두부 김치찌개</div>
+          <div class="sub">15분 · 480 kcal · 단백질 22g</div>
+        </div>
+      </div>
+
+      <div class="phone-screen">
+        <div class="phone-app-bar"><span>루틴핏 · AI 레시피</span><span>맞춤 생성</span></div>
+        <div class="phone-card with-thumb">
+          <div class="phone-photo-thumb recipe">🍲</div>
+          <div class="phone-card-content">
+            <div class="title">사진 1장 → 레시피 1장</div>
+            <div class="meta">대표님 혈압·당뇨 반영</div>
+            <span class="badge">저염 35%↓</span>
+          </div>
+        </div>
+        <div class="phone-card ai-bg">
+          <div class="label">조리법 (3단계)</div>
+          <div class="value sm">① 두부 찌기 → ② 김치 볶기 → ③ 끓이기</div>
+          <div class="sub">총 15분 소요</div>
+        </div>
+      </div>
+
+      <div class="phone-screen">
+        <div class="phone-app-bar"><span>루틴핏 · 검진 결과</span><span>3개월차</span></div>
+        <div class="phone-stat-row">
+          <div class="phone-stat">
+            <div class="stat-label">혈압</div>
+            <div class="stat-value green">130/85</div>
+          </div>
+          <div class="phone-stat">
+            <div class="stat-label">공복혈당</div>
+            <div class="stat-value green">112</div>
+          </div>
+          <div class="phone-stat">
+            <div class="stat-label">체중</div>
+            <div class="stat-value green">-3.2</div>
+          </div>
+        </div>
+        <div class="phone-card ai-bg">
+          <div class="label">의사 한 마디</div>
+          <div class="value sm">"잘 관리하고 계시네요"</div>
+          <div class="sub">3개월 전 대비 모든 수치 개선</div>
+        </div>
+      </div>
+
+      <div class="phone-screen">
+        <div class="phone-app-bar"><span>루틴핏 · 오늘 리포트</span><span>오후 10:48</span></div>
+        <div class="phone-card">
+          <div class="label">오늘 종합 점수</div>
+          <div class="value">92점</div>
+          <div class="sub">이번 주 최고 점수입니다</div>
+        </div>
+        <div class="phone-card ai-bg">
+          <div class="label">오늘 완료</div>
+          <div class="phone-check-list">
+            <div class="phone-check-item">아침 식사 기록</div>
+            <div class="phone-check-item">혈압 측정 130/85</div>
+            <div class="phone-check-item">걸음 수 9,840보</div>
+            <div class="phone-check-item">약 복용 완료</div>
+          </div>
+        </div>
+      </div>
+
         </div>
       </div>
     </div>
 
-    <!-- ⑦ 식당 -->
-    <div class="slide">
-      <video class="slide-video" muted loop playsinline preload="auto" poster="assets/hero-03-restaurant.jpg">
-        <source src="assets/hero-03-restaurant.mp4" type="video/mp4">
-      </video>
-      <div class="slide-text">
-        <div class="slide-text-inner">
-          <div class="slide-label">RoutineFit · AI 식당 가이드</div>
-          <div class="slide-headline">AI가 내 몸에 맞는<br>선택을 알려줍니다</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ⑪ 냉장고 -->
-    <div class="slide">
-      <video class="slide-video" muted loop playsinline preload="auto" poster="assets/hero-04-fridge.jpg">
-        <source src="assets/hero-04-fridge.mp4" type="video/mp4">
-      </video>
-      <div class="slide-text">
-        <div class="slide-text-inner">
-          <div class="slide-label">RoutineFit · 냉장고 식단 설계</div>
-          <div class="slide-headline">냉장고 앞 5분,<br>AI가 오늘 식단을 설계합니다</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ⑬ AI레시피 -->
-    <div class="slide">
-      <video class="slide-video" muted loop playsinline preload="auto" poster="assets/hero-05-recipe.jpg">
-        <source src="assets/hero-05-recipe.mp4" type="video/mp4">
-      </video>
-      <div class="slide-text">
-        <div class="slide-text-inner">
-          <div class="slide-label">RoutineFit · 사진 레시피 분석</div>
-          <div class="slide-headline">사진 한 장이<br>나만의 맞춤 레시피가 됩니다</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ⑨ 밤평온 -->
-    <div class="slide">
-      <video class="slide-video" muted loop playsinline preload="auto" poster="assets/hero-06-night.jpg">
-        <source src="assets/hero-06-night.mp4" type="video/mp4">
-      </video>
-      <div class="slide-text">
-        <div class="slide-text-inner">
-          <div class="slide-label">RoutineFit · 하루 마감 기록</div>
-          <div class="slide-headline">오늘 하루가 기록되면,<br>걱정 없이 잠듭니다</div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- 슬로건 (슬라이드 위 고정) -->
-  <div class="hero-slogan">
-    <div class="hero-slogan-main">AI 기반 개인 맞춤 건강관리</div>
-    <div class="hero-slogan-sub">삶이 먼저<br><span class="highlight">달라집니다</span></div>
-  </div>
-
-  <!-- 스크롤 힌트 -->
-  <div class="scroll-hint">
-    <span>SCROLL</span>
-    <div class="scroll-hint-arrow"></div>
-  </div>
-
-  <!-- 하단: CTA + 인디케이터 -->
-  <div class="hero-bottom">
-    <div class="hero-cta-wrap">
-      <a href="#cta" class="btn btn-primary btn-hero">무료로 시작하기</a>
-      <a href="#features" class="btn btn-outline btn-hero">기능 살펴보기</a>
-    </div>
-    <div class="indicators" id="indicators">
-      <button class="dot active" data-idx="0" aria-label="장면 1"></button>
-      <button class="dot" data-idx="1" aria-label="장면 2"></button>
-      <button class="dot" data-idx="2" aria-label="장면 3"></button>
-      <button class="dot" data-idx="3" aria-label="장면 4"></button>
-      <button class="dot" data-idx="4" aria-label="장면 5"></button>
-      <button class="dot" data-idx="5" aria-label="장면 6"></button>
-    </div>
   </div>
 </section>
 
@@ -1607,46 +1783,47 @@ footer {
      JAVASCRIPT
      ==================================================== -->
 <script>
-/* ── 6장면 Hero 슬라이드쇼 ── */
+/* ── v68 디로그 클론: 8장면 영상 + 폰 동기 전환 ── */
 (function() {
   const slides = document.querySelectorAll('.slide');
   const dots   = document.querySelectorAll('.dot');
+  const phones = document.querySelectorAll('.phone-screen');
   let   current = 0;
   let   timer;
 
   function goTo(idx) {
-    // 이전 슬라이드 비활성
+    // 이전 비활성
     slides[current].classList.remove('active');
     dots[current].classList.remove('active');
+    if (phones[current]) phones[current].classList.remove('active');
+
+    // 이전 비디오 정지
+    const prevVideo = slides[current].querySelector('.slide-video');
+    if (prevVideo) { try { prevVideo.pause(); } catch(e){} }
 
     current = (idx + slides.length) % slides.length;
 
+    // 새 활성
     slides[current].classList.add('active');
     dots[current].classList.add('active');
+    if (phones[current]) phones[current].classList.add('active');
 
-    // v67: active 슬라이드 비디오 처음부터 재생 (Ken Burns 애니메이션 재시작)
+    // 새 비디오 재생 (preload metadata였으면 src 로드 후 재생)
     const activeVideo = slides[current].querySelector('.slide-video');
     if (activeVideo) {
       try {
+        if (activeVideo.readyState < 2) activeVideo.load();
         activeVideo.currentTime = 0;
-        const playPromise = activeVideo.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(() => { /* autoplay 차단 시 무시 */ });
-        }
-      } catch (e) { /* 일부 브라우저 currentTime 설정 실패 무시 */ }
+        const p = activeVideo.play();
+        if (p) p.catch(() => {});
+      } catch(e) {}
     }
   }
 
   function next() { goTo(current + 1); }
 
-  function startTimer() {
-    timer = setInterval(next, 4000); // 4초 전환
-  }
-
-  function resetTimer() {
-    clearInterval(timer);
-    startTimer();
-  }
+  function startTimer() { timer = setInterval(next, 4000); }
+  function resetTimer() { clearInterval(timer); startTimer(); }
 
   // 도트 클릭
   dots.forEach(dot => {
@@ -1659,45 +1836,15 @@ footer {
   // 터치 스와이프 (모바일)
   let touchStartX = 0;
   const hero = document.getElementById('hero');
-  hero.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
-  hero.addEventListener('touchend', e => {
-    const diff = touchStartX - e.changedTouches[0].clientX;
-    if (Math.abs(diff) > 50) {
-      goTo(diff > 0 ? current + 1 : current - 1);
-      resetTimer();
-    }
-  }, { passive: true });
+  if (hero) {
+    hero.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+    hero.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 50) { goTo(dx < 0 ? current+1 : current-1); resetTimer(); }
+    }, { passive: true });
+  }
 
-  // 자동 시작
   startTimer();
-})();
-
-
-/* ── Scroll Fade-in (IntersectionObserver) ── */
-(function() {
-  const els = document.querySelectorAll('.fade-in');
-  const io  = new IntersectionObserver(entries => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        io.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.12 });
-  els.forEach(el => io.observe(el));
-})();
-
-
-/* ── Nav 스크롤 시 배경 진하게 ── */
-(function() {
-  const nav = document.getElementById('main-nav');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 60) {
-      nav.style.background = 'rgba(10,14,26,0.97)';
-    } else {
-      nav.style.background = 'rgba(10,14,26,0.85)';
-    }
-  }, { passive: true });
 })();
 </script>
 
