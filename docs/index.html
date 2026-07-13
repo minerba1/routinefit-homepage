@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="루틴핏 - AI 개인 맞춤 건강관리 앱. 삶이 먼저 달라집니다.">
+<title>루틴핏 RoutineFit — 삶이 먼저 달라집니다</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0A0E1A;--navy2:#0F172A;--navy3:#1E293B;
+  --green:#16C784;--green2:#0FA96C;--green3:#D1FAE5;
+  --white:#F8FAFC;--muted:#94A3B8;
+  --border:rgba(255,255,255,0.08);--card-bg:rgba(255,255,255,0.04);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Noto Sans KR',sans-serif;background:var(--navy);color:var(--white);-webkit-font-smoothing:antialiased;line-height:1.6}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes floatUp{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes floatDown{0%,100%{transform:translateY(-6px)}50%{transform:translateY(8px)}}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0.3}}
+@keyframes barGrow{from{width:0%!important}}
+
+/* NAV */
+.nav{position:fixed;top:0;left:0;right:0;z-index:300;padding:20px 0;transition:all 0.35s ease}
+.nav.scrolled{background:rgba(10,14,26,0.92);backdrop-filter:blur(20px);padding:13px 0;border-bottom:1px solid var(--border)}
+.nav-inner{max-width:1120px;margin:0 auto;padding:0 40px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--white);font-size:18px;font-weight:700}
+.nav-mark{width:34px;height:34px;border-radius:10px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:900;color:#fff;letter-spacing:-0.05em}
+.nav-links{display:flex;align-items:center;gap:28px}
+.nav-link{font-size:14px;font-weight:400;color:var(--muted);cursor:pointer;transition:color 0.2s;text-decoration:none}
+.nav-link:hover{color:var(--white)}
+.nav-cta{background:var(--green);color:#fff;border:none;border-radius:100px;padding:10px 22px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.2s}
+.nav-cta:hover{background:var(--green2);transform:translateY(-1px);box-shadow:0 8px 24px rgba(22,199,132,0.3)}
+
+/* HERO */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;z-index:0}
+.hero-slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity 1.2s ease}
+.hero-slide.active{opacity:1}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,14,26,0.92) 0%,rgba(10,14,26,0.65) 55%,rgba(10,14,26,0.4) 100%)}
+.hero-overlay2{position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,14,26,0.7) 0%,transparent 40%)}
+.hero-inner{position:relative;z-index:1;max-width:1120px;margin:0 auto;padding:140px 40px 80px;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center}
+.hero-text{animation:fadeUp 0.8s 0.1s ease both}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(22,199,132,0.12);border:1px solid rgba(22,199,132,0.3);color:var(--green);border-radius:100px;padding:6px 16px;font-size:12px;font-weight:500;margin-bottom:28px}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:blink 2s infinite;display:inline-block}
+.hero-h1{font-size:clamp(32px,4.2vw,54px);font-weight:900;color:var(--white);line-height:1.18;letter-spacing:-0.04em;margin-bottom:18px}
+.hero-h1 em{font-style:normal;color:var(--green)}
+.hero-sub{font-size:17px;color:var(--muted);line-height:1.8;margin-bottom:14px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{display:flex;align-items:center;gap:8px;background:var(--green);color:#fff;border:none;border-radius:14px;padding:14px 24px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;transition:all 0.22s}
+.btn-primary:hover{background:var(--green2);transform:translateY(-2px);box-shadow:0 12px 32px rgba(22,199,132,0.28)}
+.btn-secondary{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.07);color:var(--white);border:1px solid rgba(255,255,255,0.15);border-radius:14px;padding:14px 24px;font-size:14px;font-weight:500;cursor:pointer;font-family:inherit;transition:all 0.22s}
+.btn-secondary:hover{background:rgba(255,255,255,0.13);transform:translateY(-2px)}
+.hero-indicators{position:absolute;bottom:38px;left:50%;transform:translateX(-50%);z-index:2;display:flex;gap:8px}
+.indicator{width:28px;height:3px;border-radius:2px;background:rgba(255,255,255,0.25);transition:all 0.4s ease;cursor:pointer}
+.indicator.active{width:52px;background:var(--green)}
+
+/* PHONE MOCKUP */
+.hero-visual{position:relative;display:flex;align-items:center;justify-content:center;height:672px;animation:fadeUp 0.8s 0.3s ease both}
+.phone-scale-wrap{transform:scale(1.2);transform-origin:center center}
+.phone-wrap{position:relative;animation:floatUp 7s ease-in-out infinite}
+.phone-frame{width:240px;height:490px;background:#060A14;border-radius:48px;padding:12px;box-shadow:0 50px 100px rgba(0,0,0,0.6),0 0 0 1.5px rgba(255,255,255,0.08) inset,0 0 80px rgba(22,199,132,0.08)}
+.phone-screen{width:100%;height:100%;background:linear-gradient(175deg,#0F172A 0%,#1a2535 100%);border-radius:38px;overflow:hidden;display:flex;flex-direction:column}
+.phone-notch{width:76px;height:24px;background:#060A14;border-radius:0 0 14px 14px;margin:0 auto;flex-shrink:0}
+.phone-body{padding:10px 15px 14px;flex:1;overflow:hidden;display:flex;flex-direction:column;gap:8px}
+.ph-greeting{font-size:10.5px;color:rgba(255,255,255,0.35)}
+.ph-title{font-size:14.5px;font-weight:700;color:#fff;line-height:1.3}
+.ph-score-row{display:flex;justify-content:center}
+.ph-ring{width:86px;height:86px;border-radius:50%;background:conic-gradient(var(--green) 0% 74%,rgba(255,255,255,0.07) 74% 100%);display:flex;align-items:center;justify-content:center;position:relative;margin:2px 0}
+.ph-ring::before{content:'';width:66px;height:66px;border-radius:50%;background:#1a2535;position:absolute}
+.ph-ring-inner{position:relative;z-index:1;text-align:center}
+.ph-ring-num{font-size:16px;font-weight:900;color:#fff;display:block}
+.ph-ring-lbl{font-size:8px;color:rgba(255,255,255,0.38);display:block}
+.ph-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.ph-card{background:rgba(255,255,255,0.05);border-radius:10px;padding:8px 9px;border:1px solid rgba(255,255,255,0.07)}
+.phc-icon{font-size:12px;margin-bottom:2px}
+.phc-label{font-size:7.5px;color:rgba(255,255,255,0.33);margin-bottom:2px}
+.phc-val{font-size:13px;font-weight:700;color:#fff}
+.phc-unit{font-size:7.5px;color:rgba(255,255,255,0.33);margin-left:1px}
+.ph-ai-box{background:rgba(22,199,132,0.1);border-radius:10px;padding:8px 10px;border:1px solid rgba(22,199,132,0.2)}
+.ph-ai-title{font-size:7.5px;color:var(--green);margin-bottom:5px}
+.ph-ai-item{display:flex;align-items:center;gap:5px;margin-bottom:3px}
+.ph-ai-dot{width:4px;height:4px;border-radius:50%;flex-shrink:0}
+.ph-ai-text{font-size:8.5px;color:rgba(255,255,255,0.5)}
+.ph-ai-done{color:rgba(255,255,255,0.75)!important}
+
+/* FLOATING CARDS */
+.fc{position:absolute;background:rgba(15,23,42,0.92);border-radius:14px;padding:10px 14px;backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);box-shadow:0 16px 40px rgba(0,0,0,0.3);display:flex;align-items:center;gap:9px;white-space:nowrap}
+.fc-icon{font-size:20px}
+.fc-info{display:flex;flex-direction:column}
+.fc-label{font-size:10px;color:var(--muted)}
+.fc-val{font-size:14px;font-weight:700;color:var(--white)}
+.fc1{top:50px;left:-78px;animation:floatUp 7s ease-in-out infinite}
+.fc2{top:80px;right:-92px;animation:floatDown 5.5s ease-in-out infinite}
+.fc3{bottom:140px;left:-60px;animation:floatUp 8s 1s ease-in-out infinite}
+.fc4{bottom:120px;right:-82px;animation:floatDown 6.5s 0.5s ease-in-out infinite}
+
+/* SECTION COMMONS */
+.section-inner{max-width:1120px;margin:0 auto}
+.section-eyebrow{font-size:12px;font-weight:500;color:var(--green);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:14px}
+.section-h2{font-size:clamp(26px,3.2vw,40px);font-weight:900;color:var(--white);letter-spacing:-0.035em;line-height:1.25;margin-bottom:14px}
+.section-sub{font-size:16px;color:var(--muted);line-height:1.8;margin-bottom:56px;max-width:560px}
+
+/* S2 EMPATHY */
+.empathy{padding:100px 40px;background:var(--navy2);position:relative;overflow:hidden}
+.empathy::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:600px;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.08),transparent)}
+.empathy-header{display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:56px}
+.empathy-header-left{flex:1}
+.empathy-header-left .section-sub{margin-bottom:0}
+.empathy-guide{display:inline-flex;align-items:center;gap:8px;background:rgba(22,199,132,0.08);border:1px solid rgba(22,199,132,0.2);color:var(--green);border-radius:100px;padding:8px 18px;font-size:13px;font-weight:500;white-space:nowrap;animation:pulse 3s ease-in-out infinite;flex-shrink:0;align-self:flex-end;margin-bottom:4px}
+.empathy-guide-icon{font-size:16px;animation:blink 2s infinite}
+.pain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.pain-card{background:var(--card-bg);border:1px solid var(--border);border-radius:18px;padding:26px 24px;transition:all 0.25s ease;cursor:pointer;position:relative}
+.pain-card:hover{background:rgba(255,255,255,0.07);border-color:rgba(22,199,132,0.3);transform:translateY(-3px)}
+.pain-card:hover .pain-play{opacity:1;transform:scale(1)}
+.pain-icon{font-size:28px;margin-bottom:14px}
+.pain-title{font-size:15px;font-weight:700;color:var(--white);margin-bottom:8px;line-height:1.4}
+.pain-desc{font-size:13px;color:var(--muted);line-height:1.7}
+.pain-play{display:flex;align-items:center;gap:6px;margin-top:14px;font-size:12px;color:var(--green);font-weight:500;opacity:0.6;transition:all 0.25s ease;transform:scale(0.95)}
+.pain-play-btn{width:28px;height:28px;border-radius:50%;background:rgba(22,199,132,0.15);border:1px solid rgba(22,199,132,0.3);display:flex;align-items:center;justify-content:center;transition:all 0.25s}
+.pain-card:hover .pain-play-btn{background:var(--green);border-color:var(--green)}
+.pain-play-btn svg{width:12px;height:12px;fill:var(--green);transition:fill 0.25s}
+.pain-card:hover .pain-play-btn svg{fill:#fff}
+
+/* VIDEO MODAL */
+.video-modal{position:fixed;inset:0;z-index:9999;display:none;align-items:center;justify-content:center;background:rgba(0,0,0,0.88);backdrop-filter:blur(12px);opacity:0;transition:opacity 0.35s ease}
+.video-modal.active{display:flex;opacity:1}
+.video-modal.closing{opacity:0}
+.vm-container{position:relative;width:90vw;max-width:900px;aspect-ratio:16/9;background:#000;border-radius:16px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.6);animation:scaleIn 0.3s ease both}
+@keyframes scaleIn{from{opacity:0;transform:scale(0.92)}to{opacity:1;transform:scale(1)}}
+.vm-close{position:absolute;top:-48px;right:0;width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s;z-index:2}
+.vm-close:hover{background:rgba(255,255,255,0.2);transform:scale(1.1)}
+.vm-close svg{width:18px;height:18px;stroke:#fff;stroke-width:2;fill:none}
+.vm-iframe{width:100%;height:100%;border:none}
+.vm-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted);font-size:15px;gap:12px}
+.vm-placeholder-icon{font-size:48px;opacity:0.4}
+
+/* S3 SOLUTION */
+.solution{padding:100px 40px;background:linear-gradient(135deg,var(--navy) 0%,#0B1C12 100%);position:relative;overflow:hidden}
+.solution::after{content:'';position:absolute;top:-200px;right:-200px;width:500px;height:500px;border-radius:50%;background:radial-gradient(ellipse,rgba(22,199,132,0.06) 0%,transparent 70%);pointer-events:none}
+.sol-grid{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center}
+.sol-tag{display:inline-flex;align-items:center;gap:7px;background:rgba(22,199,132,0.1);border:1px solid rgba(22,199,132,0.2);color:var(--green);border-radius:100px;padding:5px 14px;font-size:12px;font-weight:500;margin-bottom:22px}
+.sol-desc{font-size:16px;color:var(--muted);line-height:1.85;margin-bottom:36px}
+.sol-pills{display:flex;flex-wrap:wrap;gap:10px}
+.sol-pill{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:var(--white);border-radius:100px;padding:8px 18px;font-size:13px;font-weight:500}
+.compare-box{background:var(--card-bg);border:1px solid var(--border);border-radius:22px;padding:28px}
+.compare-title{font-size:13px;color:var(--muted);margin-bottom:20px}
+.compare-row{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px}
+.compare-row:last-child{margin-bottom:0}
+.comp-icon{width:38px;height:38px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px;flex-shrink:0}
+.comp-label{font-size:12px;color:var(--muted);margin-bottom:3px}
+.comp-val{font-size:14px;font-weight:700;color:var(--white)}
+.comp-bar-bg{width:100%;height:5px;background:rgba(255,255,255,0.07);border-radius:3px;margin-top:6px}
+.comp-bar{height:100%;border-radius:3px;animation:barGrow 1.4s cubic-bezier(0.25,0.46,0.45,0.94) both}
+.comp-bar:nth-child(1){animation-delay:0.1s}
+
+/* S4 FEATURES */
+.features{padding:100px 40px;background:var(--navy2)}
+.feat-header{text-align:center;margin-bottom:60px}
+.feat-header .section-sub{margin:0 auto}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.feat-card{background:var(--card-bg);border:1px solid var(--border);border-radius:22px;padding:32px 28px;transition:all 0.3s ease;position:relative;overflow:hidden}
+.feat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--feat-color,var(--green));opacity:0;transition:opacity 0.3s}
+.feat-card:hover{background:rgba(255,255,255,0.06);border-color:rgba(255,255,255,0.15);transform:translateY(-4px)}
+.feat-card:hover::before{opacity:1}
+.feat-num{font-size:72px;font-weight:900;color:rgba(255,255,255,0.03);line-height:1;margin-bottom:-14px}
+.feat-icon-box{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:18px}
+.feat-title{font-size:19px;font-weight:900;color:var(--white);margin-bottom:12px;line-height:1.35}
+.feat-desc{font-size:14px;color:var(--muted);line-height:1.8;margin-bottom:20px}
+.feat-pts{display:flex;flex-direction:column;gap:8px}
+.feat-pt{display:flex;align-items:center;gap:9px;font-size:13px;color:rgba(255,255,255,0.65)}
+.feat-pt-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+
+/* S5 CHANGES */
+.changes{padding:100px 40px;background:var(--navy)}
+.changes-header{text-align:center;margin-bottom:56px}
+.changes-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.change-card{background:var(--card-bg);border:1px solid var(--border);border-radius:20px;padding:26px 22px;transition:all 0.3s ease;position:relative;overflow:hidden}
+.change-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,0.18)}
+.change-card.featured{grid-column:1/-1;display:grid;grid-template-columns:auto 1fr;gap:0 28px;align-items:center;background:linear-gradient(135deg,rgba(34,211,238,0.06) 0%,rgba(22,199,132,0.04) 100%);border-color:rgba(34,211,238,0.2);padding:34px 36px}
+.change-card.featured:hover{border-color:rgba(34,211,238,0.4)}
+.change-line{height:3px;border-radius:2px;margin-bottom:18px}
+.change-num{font-size:26px;font-weight:900;margin-bottom:12px}
+.change-title{font-size:14px;font-weight:700;color:var(--white);margin-bottom:10px;line-height:1.45}
+.change-desc{font-size:12.5px;color:var(--muted);line-height:1.75}
+.featured-line{height:100%;width:4px;border-radius:4px;flex-shrink:0}
+.featured-num{font-size:38px;font-weight:900;margin-bottom:10px}
+.featured-title{font-size:17px;font-weight:700;color:var(--white);margin-bottom:10px;line-height:1.45}
+.featured-desc{font-size:14px;color:var(--muted);line-height:1.75;max-width:740px}
+.featured-badge{display:inline-flex;align-items:center;gap:6px;border-radius:100px;padding:6px 16px;font-size:12px;font-weight:600;margin-top:18px}
+
+/* S6 CTA */
+.cta{padding:110px 40px;background:linear-gradient(135deg,#0B1C12 0%,var(--navy) 100%);text-align:center;position:relative;overflow:hidden}
+.cta::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;border-radius:50%;background:radial-gradient(ellipse,rgba(22,199,132,0.08) 0%,transparent 65%);pointer-events:none}
+.cta-inner{max-width:640px;margin:0 auto;position:relative;z-index:1}
+.cta-eyebrow{font-size:12px;font-weight:500;color:var(--green);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:16px}
+.cta-h2{font-size:clamp(30px,4.2vw,50px);font-weight:900;color:var(--white);letter-spacing:-0.04em;line-height:1.2;margin-bottom:18px}
+.cta-h2 em{font-style:normal;color:var(--green)}
+.cta-sub{font-size:16px;color:var(--muted);line-height:1.8;margin-bottom:42px}
+.cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-bottom:28px}
+.btn-cta-primary{display:flex;align-items:center;gap:8px;background:var(--green);color:#fff;border:none;border-radius:14px;padding:16px 28px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;transition:all 0.22s}
+.btn-cta-primary:hover{background:var(--green2);transform:translateY(-2px);box-shadow:0 16px 40px rgba(22,199,132,0.3)}
+.btn-cta-primary.dark{background:#1D1D1F}
+.btn-cta-ghost{display:flex;align-items:center;gap:8px;background:transparent;color:var(--white);border:1px solid rgba(255,255,255,0.2);border-radius:14px;padding:16px 28px;font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;transition:all 0.22s;margin:0 auto}
+.btn-cta-ghost:hover{background:rgba(255,255,255,0.07);transform:translateY(-2px)}
+.cta-note{font-size:13px;color:rgba(255,255,255,0.3);margin-top:28px}
+
+/* FOOTER */
+.footer{padding:48px 40px;background:#060A14;border-top:1px solid rgba(255,255,255,0.06)}
+.footer-inner{max-width:1120px;margin:0 auto;display:flex;align-items:center;justify-content:space-between}
+.footer-logo{display:flex;align-items:center;gap:8px;color:rgba(255,255,255,0.45);font-size:15px;font-weight:700}
+.footer-mark{width:27px;height:27px;border-radius:7px;background:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:900}
+.footer-links{display:flex;gap:24px}
+.footer-link{font-size:13px;color:rgba(255,255,255,0.25);cursor:pointer;transition:color 0.2s}
+.footer-link:hover{color:rgba(255,255,255,0.5)}
+.footer-copy{font-size:12px;color:rgba(255,255,255,0.18)}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .hero-inner,.sol-grid{grid-template-columns:1fr;gap:40px}
+  .hero-visual{height:380px}
+  .phone-scale-wrap{transform:scale(0.9)}
+  .fc{display:none}
+  .pain-grid,.feat-grid{grid-template-columns:repeat(2,1fr)}
+  .changes-grid{grid-template-columns:repeat(2,1fr)}
+  .nav-links{display:none}
+  .empathy-header{flex-direction:column;align-items:flex-start}
+  .empathy-guide{font-size:12px;align-self:flex-start}
+}
+@media(max-width:640px){
+  .nav-inner{padding:0 20px}
+  .hero-inner{padding-left:20px;padding-right:20px}
+  .empathy,.solution,.features,.changes,.cta,.footer{padding-left:20px;padding-right:20px}
+  .pain-grid,.feat-grid,.changes-grid{grid-template-columns:1fr}
+  .change-card.featured{grid-template-columns:1fr}
+  .footer-inner{flex-direction:column;gap:20px;text-align:center}
+  .footer-links{flex-wrap:wrap;justify-content:center}
+  .vm-container{width:95vw;border-radius:12px}
+  .vm-close{top:-44px}
+  .empathy-guide{font-size:11px;padding:6px 14px;white-space:normal;line-height:1.5}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-mark">RF</div>루틴핏
+    </a>
+    <div class="nav-links">
+      <a href="#features" class="nav-link">기능</a>
+      <a href="#changes" class="nav-link">변화 사례</a>
+      <a href="#download" class="nav-link">다운로드</a>
+    </div>
+    <button class="nav-cta">무료 시작하기</button>
+  </div>
+</nav>
+
+<!-- S1: HERO -->
+<section class="hero">
+  <div class="hero-bg" id="heroBg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-overlay2"></div>
+  <div class="hero-inner">
+    <div class="hero-text">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        AI 개인 맞춤 건강관리 · 무료 다운로드
+      </div>
+      <h1 class="hero-h1">삶이 먼저<br><em>달라집니다</em></h1>
+      <p class="hero-sub">기능이 아니라 당신의 일상을 바꿉니다.<br>루틴핏은 13가지 삶의 변화를 설계합니다.</p>
+      <div class="hero-btns" style="margin-top:32px">
+        <button class="btn-primary">▶ Google Play</button>
+        <button class="btn-primary" style="background:#1D1D1F">🍎 App Store</button>
+        <button class="btn-secondary">웹으로 시작하기 →</button>
+      </div>
+    </div>
+
+    <!-- PHONE MOCKUP -->
+    <div class="hero-visual">
+      <div class="fc fc1"><span class="fc-icon">🩺</span><div class="fc-info"><span class="fc-label">혈압 안정</span><span class="fc-val">126/82 mmHg</span></div></div>
+      <div class="fc fc2"><span class="fc-icon">✨</span><div class="fc-info"><span class="fc-label">AI 분석 완료</span><span class="fc-val">건강점수 74</span></div></div>
+      <div class="fc fc3"><span class="fc-icon">🔥</span><div class="fc-info"><span class="fc-label">연속 달성</span><span class="fc-val">23일째 🎉</span></div></div>
+      <div class="fc fc4"><span class="fc-icon">💬</span><div class="fc-info"><span class="fc-label">AI 주치의</span><span class="fc-val">24시간 대기</span></div></div>
+      <div class="phone-scale-wrap">
+        <div class="phone-wrap">
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <div class="phone-notch"></div>
+            <div class="phone-body">
+              <div class="ph-greeting">2026년 6월 · 좋은 아침이에요 👋</div>
+              <div class="ph-title">오늘의 건강 점수</div>
+              <div class="ph-score-row">
+                <div class="ph-ring">
+                  <div class="ph-ring-inner">
+                    <span class="ph-ring-num">74</span>
+                    <span class="ph-ring-lbl">/ 100</span>
+                  </div>
+                </div>
+              </div>
+              <div class="ph-grid">
+                <div class="ph-card"><div class="phc-icon">🍽️</div><div class="phc-label">오늘 칼로리</div><div class="phc-val">1,240<span class="phc-unit">kcal</span></div></div>
+                <div class="ph-card"><div class="phc-icon">🏃</div><div class="phc-label">운동</div><div class="phc-val">32<span class="phc-unit">분</span></div></div>
+                <div class="ph-card"><div class="phc-icon">💓</div><div class="phc-label">혈압</div><div class="phc-val">126<span class="phc-unit">/82</span></div></div>
+                <div class="ph-card"><div class="phc-icon">😴</div><div class="phc-label">수면</div><div class="phc-val">7.2<span class="phc-unit">h</span></div></div>
+              </div>
+              <div class="ph-ai-box">
+                <div class="ph-ai-title">✨ AI 주치의 오늘 제안</div>
+                <div class="ph-ai-item"><div class="ph-ai-dot" style="background:#16C784"></div><span class="ph-ai-text ph-ai-done">혈압이 어제보다 안정됐어요 👍</span></div>
+                <div class="ph-ai-item"><div class="ph-ai-dot" style="background:rgba(255,255,255,0.2)"></div><span class="ph-ai-text">저녁에 나트륨 줄여보세요</span></div>
+                <div class="ph-ai-item"><div class="ph-ai-dot" style="background:rgba(255,255,255,0.2)"></div><span class="ph-ai-text">20분 산책으로 포인트 달성!</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-indicators" id="indicators"></div>
+</section>
+
+<!-- S2: 공감 -->
+<section class="empathy" id="empathy">
+  <div class="section-inner">
+    <div class="empathy-header">
+      <div class="empathy-header-left">
+        <div class="section-eyebrow">공감합니다</div>
+        <h2 class="section-h2">지금 이런 걱정을<br>하고 계신가요?</h2>
+        <p class="section-sub">40~60대 만성질환자, 1인 가구, 주부, 다이어트 중인 분들이<br>매일 느끼는 불안과 답답함을 루틴핏이 알고 있습니다.</p>
+      </div>
+      <div class="empathy-guide">
+        <span class="empathy-guide-icon">▶</span>
+        각 박스를 클릭하면 당신의 상황에 맞는 영상이 재생됩니다
+      </div>
+    </div>
+    <div class="pain-grid" id="painGrid"></div>
+  </div>
+</section>
+
+<!-- S3: 전환 -->
+<section class="solution" id="solution">
+  <div class="section-inner">
+    <div class="sol-grid">
+      <div class="sol-text">
+        <div class="sol-tag">💡 루틴핏이 다른 이유</div>
+        <h2 class="section-h2">기능을 팔지 않습니다.<br><span style="color:var(--green)">삶을 팝니다.</span></h2>
+        <p class="sol-desc">세상에 건강 앱은 수백 개입니다. 하지만 대부분은 기능을 나열합니다.<br><br>루틴핏은 다릅니다. AI가 당신의 음식·운동·수면·혈압을 종합 분석해<br><strong style="color:var(--white)">단 한 명, 바로 당신만을 위한 맞춤 솔루션</strong>을 설계합니다.<br><br>병원은 한 달에 한 번이지만, 건강 걱정은 매일 밤 찾아옵니다.<br>루틴핏 AI 주치의는 365일 24시간 당신 곁에 있습니다.</p>
+        <div class="sol-pills">
+          <span class="sol-pill">40~60대 만성질환</span>
+          <span class="sol-pill">1인 가구</span>
+          <span class="sol-pill">주부·보호자</span>
+          <span class="sol-pill">다이어트 성인</span>
+          <span class="sol-pill">AI 개인 맞춤</span>
+        </div>
+      </div>
+      <div class="sol-visual">
+        <div class="compare-box">
+          <div class="compare-title">루틴핏 4대 건강 요소 관리</div>
+          <div id="compareRows"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S4: 기능 -->
+<section class="features" id="features">
+  <div class="section-inner">
+    <div class="feat-header">
+      <div class="section-eyebrow">핵심 기능</div>
+      <h2 class="section-h2">지루하지 않게 건강을 관리합니다</h2>
+      <p class="section-sub">3초 입력, AI 분석, 루틴 추적. 복잡한 건강 관리를 쉽게.</p>
+    </div>
+    <div class="feat-grid" id="featGrid"></div>
+  </div>
+</section>
+
+<!-- S5: 삶의 변화 -->
+<section class="changes" id="changes">
+  <div class="section-inner">
+    <div class="changes-header">
+      <div class="section-eyebrow">삶이 달라지는 순간들</div>
+      <h2 class="section-h2">루틴핏이 만드는<br>13가지 일상의 변화</h2>
+      <p class="section-sub" style="margin:0 auto">숫자가 아닌 삶의 장면으로 기억되는 건강 관리.<br>이 순간들을 루틴핏이 함께 만들어 드립니다.</p>
+    </div>
+    <div class="changes-grid" id="changesGrid"></div>
+  </div>
+</section>
+
+<!-- S6: CTA -->
+<section class="cta" id="download">
+  <div class="cta-inner">
+    <div class="cta-eyebrow">지금 바로 시작하세요</div>
+    <h2 class="cta-h2">삶이 먼저<br><em>달라집니다</em></h2>
+    <p class="cta-sub">오늘 처음 열어보는 루틴핏에서<br>나만을 위한 AI 건강 루틴이 시작됩니다.<br>첫 30일 루틴 설계는 AI가 대신 해드려요.</p>
+    <div class="cta-btns">
+      <button class="btn-cta-primary">▶ Google Play 다운로드</button>
+      <button class="btn-cta-primary dark">🍎 App Store 다운로드</button>
+    </div>
+    <button class="btn-cta-ghost">웹 버전으로 먼저 체험하기 →</button>
+    <p class="cta-note">완전 무료 · 광고 없음 · 개인정보 안전 보관</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-logo"><div class="footer-mark">RF</div>루틴핏 RoutineFit</div>
+    <div class="footer-links">
+      <span class="footer-link">회사 소개</span>
+      <span class="footer-link">개인정보처리방침</span>
+      <span class="footer-link">이용약관</span>
+      <span class="footer-link">문의하기</span>
+    </div>
+    <div class="footer-copy">© 2026 RoutineFit. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- VIDEO MODAL -->
+<div class="video-modal" id="videoModal">
+  <div class="vm-container">
+    <div class="vm-close" id="vmClose" title="닫기">
+      <svg viewBox="0 0 24 24"><line x1="6" y1="6" x2="18" y2="18"/><line x1="18" y1="6" x2="6" y2="18"/></svg>
+    </div>
+    <div id="vmContent"></div>
+  </div>
+</div>
+
+<script>
+// ─── 데이터 ───
+const HERO_SCENES = [
+  { bg:"https://images.unsplash.com/photo-1506905925346-21bda4d32df4?auto=format&fit=crop&w=1920&q=80", caption:"아침에 눈을 떴을 때 몸이 가벼운 감각", tag:"장면 ⑤", accent:"#16C784" },
+  { bg:"https://images.unsplash.com/photo-1490645935967-10de6ba17061?auto=format&fit=crop&w=1920&q=80", caption:"좋아하는 삼겹살 앞에서 죄책감이 사라지는 순간", tag:"장면 ③", accent:"#F59E0B" },
+  { bg:"https://images.unsplash.com/photo-1414235077428-338989a2e8c0?auto=format&fit=crop&w=1920&q=80", caption:"식당 메뉴판 앞에서 당당하게 고르는 나", tag:"장면 ⑦", accent:"#FB7185" },
+  { bg:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=1920&q=80", caption:"냉장고 앞 5분이 온 가족의 건강을 바꾸는 날", tag:"장면 ⑪", accent:"#34D399" },
+  { bg:"https://images.unsplash.com/photo-1511895426328-dc8714191011?auto=format&fit=crop&w=1920&q=80", caption:"손주 운동회에 끝까지 서 있을 수 있는 체력", tag:"장면 ④", accent:"#84CC16" },
+  { bg:"https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=1920&q=80", caption:"냉장고 사진 한 장이 나만의 맞춤 요리로", tag:"장면 ⑬", accent:"#22D3EE" },
+  { bg:"https://images.unsplash.com/photo-1499209974431-9dddcece7f88?auto=format&fit=crop&w=1920&q=80", caption:"밤에 혈압 걱정 없이 잠드는 평온함", tag:"장면 ⑨", accent:"#A78BFA" },
+];
+
+const PAIN_POINTS = [
+  { icon:"😩", title:"매일 약 챙기는 게 번거롭다", desc:"아침마다 약봉지, 혈압계, 기록 수첩... 이 루틴 자체가 스트레스입니다.", videoId:"YOUR_YOUTUBE_ID_2_1" },
+  { icon:"😟", title:"뭘 먹어도 걱정이 된다", desc:"삼겹살 먹고 싶어도, 냉면 한 그릇도 선뜻 못 드시나요?", videoId:"YOUR_YOUTUBE_ID_2_2" },
+  { icon:"😔", title:"운동은 해야 하는데 뭘 해야 할지 모른다", desc:"내 나이, 내 혈압에 맞는 운동을 알려줄 사람이 없어요.", videoId:"YOUR_YOUTUBE_ID_2_3" },
+  { icon:"😥", title:"병원은 한 달에 한 번, 그 사이가 불안하다", desc:"건강 걱정은 매일 밤 찾아오는데 물어볼 곳이 없습니다.", videoId:"YOUR_YOUTUBE_ID_2_4" },
+  { icon:"😢", title:'3개월째 같은 말만 듣고 있다', desc:'"관리 좀 잘 하세요." 어떻게 하면 되는지 아무도 알려주지 않습니다.', videoId:"YOUR_YOUTUBE_ID_2_5" },
+  { icon:"😰", title:"자녀에게 걱정 끼치고 싶지 않다", desc:'"혈압 괜찮으세요?" 전화 받는 게 마음에 걸립니다.', videoId:"YOUR_YOUTUBE_ID_2_6" },
+];
+
+const COMPARE_ROWS = [
+  { icon:"🍽️", label:"좋은 음식", val:"AI 맞춤 식단 + 냉장고 사진 분석", pct:"92%", color:"#16C784" },
+  { icon:"🏃", label:"좋은 움직임", val:"체성분 기반 운동 처방", pct:"78%", color:"#38BDF8" },
+  { icon:"🚿", label:"좋은 배변", val:"식단·운동 연동 자동 추적", pct:"65%", color:"#A78BFA" },
+  { icon:"😴", label:"좋은 휴식", val:"수면 패턴 분석 리포트", pct:"88%", color:"#F59E0B" },
+];
+
+const FEATURES = [
+  { num:"01", color:"#16C784", icon:"📷", iconBg:"rgba(22,199,132,0.12)", title:"3초 입력으로 시작하는 기록", desc:"사진 한 장, 음성 한 마디, 텍스트 한 줄. 어떤 방법이든 3초면 충분합니다.", pts:["식사 사진 → AI 칼로리 자동 계산","음성 입력 → 텍스트 자동 전환","냉장고 사진 → 맞춤 레시피 제안"] },
+  { num:"02", color:"#38BDF8", icon:"🤖", iconBg:"rgba(56,189,248,0.12)", title:"나만을 위한 AI 주치의", desc:"내 혈압·식사·운동 기록을 모두 아는 AI가 365일 24시간 맞춤 조언을 드립니다.", pts:["4요소 통합 분석 (음식·운동·배변·수면)","질환별 맞춤 제안 (고혈압·당뇨·다이어트)","주간·월간 건강 리포트 자동 생성"] },
+  { num:"03", color:"#A78BFA", icon:"📅", iconBg:"rgba(167,139,250,0.12)", title:"꾸준함이 눈에 보이는 루틴 추적", desc:"연속 달성 스트릭, 건강 점수 변화, 3개월 비교. 내 노력이 데이터로 증명됩니다.", pts:["연속 달성 스트릭으로 동기부여","건강 점수 100점 게이미피케이션","목표 달성률 시각화 리포트"] },
+];
+
+const LIFE_CHANGES = [
+  { num:"①", title:"검진 결과지를 보며 미소 짓는 날", color:"#16C784", desc:'의사에게 "잘 관리하셨네요"라는 말을 듣는 순간. 병원이 성과를 확인받는 곳으로 바뀝니다.' },
+  { num:"②", title:"자녀의 전화가 걱정에서 안부로 바뀌는 날", color:"#38BDF8", desc:'"혈압 괜찮으세요?" 대신 "오늘 뭐 하셨어요?"로 대화가 바뀝니다. 독립성과 자존감의 회복.' },
+  { num:"③", title:"좋아하는 음식 앞에서 죄책감이 사라지는 순간", color:"#F59E0B", desc:"내 몸에 맞는 기준을 알기에 삼겹살도 냉면도 당당하게 즐길 수 있는 여유가 생깁니다." },
+  { num:"④", title:"손주 운동회에 끝까지 서 있을 수 있는 체력", color:"#84CC16", desc:"건강 회복의 진짜 목적은 숫자가 아닙니다. 생애 중요한 순간들을 온전히 함께할 수 있는 몸 상태." },
+  { num:"⑤", title:"아침에 눈을 떴을 때 몸이 가벼운 감각", color:"#16C784", desc:"수면의 질이 개선되고 회복력이 높아지면 아침이 달라집니다. 오늘 하루가 기대되는 아침." },
+  { num:"⑥", title:'동네 친구에게 "요즘 얼굴 좋아졌네" 듣는 날', color:"#34D399", desc:"체성분이 바뀌고 혈색이 좋아지면 주변이 먼저 알아챕니다. 말하기 전에 듣는 칭찬이 가장 강력한 동기부여." },
+  { num:"⑦", title:"식당 메뉴판 앞에서 당당하게 고르는 나", color:"#FB7185", desc:"내 몸에 뭐가 맞는지 알기에 어떤 식당에서도 흔들리지 않습니다. 모임·여행·회식에서 삶의 주도권을 되찾는 경험." },
+  { num:"⑧", title:"약봉지가 조금씩 가벼워지는 느낌", color:"#22D3EE", desc:'"약을 줄여봐도 되겠네요"라는 말을 듣는 날. 숫자로만 남던 목표가 실제 삶의 변화로 이어집니다.' },
+  { num:"⑨", title:"밤에 혈압 걱정 없이 잠드는 평온함", color:"#A78BFA", desc:"오늘 먹은 것, 운동, 혈압이 기록되어 있으면 머릿속 불안이 사라집니다. 기록이 곧 평온함입니다." },
+  { num:"⑩", title:"3개월 전 사진과 지금을 비교하며 웃는 날", color:"#84CC16", desc:"숫자로, 그래프로, 사진으로 확인되는 나의 변화. 내 노력이 헛되지 않았다는 가장 선명한 증거." },
+  { num:"⑪", title:"냉장고 앞 5분이 온 가족의 건강을 바꾸는 날", color:"#F59E0B", desc:"오늘 식재료로 더 맛있게·가성비 있게·효과적으로 요리하는 방법을 실시간으로 안내받습니다." },
+  { num:"⑫", title:"밤 11시에도 AI 주치의에게 바로 물어보는 든든함", color:"#FB7185", desc:"내 혈압·식사·운동 기록을 모두 아는 AI가 365일 24시간 옆에 있습니다." },
+  { num:"⑬", title:"냉장고 사진 한 장이 나만의 맞춤 요리가 되는 순간", color:"#22D3EE", desc:"재료 사진 + 건강 설문 + 이번 주 식사 패턴이 하나로 연결됩니다. 세상의 어떤 레시피 앱도 할 수 없는 진짜 개인화 — 이것이 루틴핏 AI의 핵심 혁신입니다." },
+];
+
+// ─── HERO 슬라이드 초기화 ───
+let slideIdx = 0;
+const bg = document.getElementById('heroBg');
+const indicators = document.getElementById('indicators');
+
+HERO_SCENES.forEach((s, i) => {
+  const div = document.createElement('div');
+  div.className = 'hero-slide' + (i===0?' active':'');
+  div.style.backgroundImage = `url(${s.bg}), ${s.fallbackGrad||'linear-gradient(135deg,#0B3D2E,#0F172A)'}`;
+  bg.appendChild(div);
+  const ind = document.createElement('div');
+  ind.className = 'indicator' + (i===0?' active':'');
+  ind.onclick = () => goSlide(i);
+  indicators.appendChild(ind);
+});
+
+function updateScene(i) {
+  document.querySelectorAll('.hero-slide').forEach((el,j) => el.classList.toggle('active', j===i));
+  document.querySelectorAll('.indicator').forEach((el,j) => el.classList.toggle('active', j===i));
+}
+
+function goSlide(i) {
+  slideIdx = i;
+  updateScene(i);
+}
+
+updateScene(0);
+setInterval(() => { slideIdx = (slideIdx+1) % HERO_SCENES.length; updateScene(slideIdx); }, 4000);
+
+// ─── Nav 스크롤 효과 ───
+window.addEventListener('scroll', () => {
+  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 40);
+});
+
+// ─── S2: Pain Points 렌더링 ───
+const painGrid = document.getElementById('painGrid');
+PAIN_POINTS.forEach((p, i) => {
+  painGrid.innerHTML += `<div class="pain-card" onclick="openVideo('${p.videoId}', '${p.title.replace(/'/g, "\\'")}')">
+    <div class="pain-icon">${p.icon}</div>
+    <div class="pain-title">${p.title}</div>
+    <div class="pain-desc">${p.desc}</div>
+    <div class="pain-play">
+      <div class="pain-play-btn"><svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg></div>
+      영상 보기
+    </div>
+  </div>`;
+});
+
+// ─── S3: Compare Rows 렌더링 ───
+const compareRows = document.getElementById('compareRows');
+COMPARE_ROWS.forEach((item, i) => {
+  compareRows.innerHTML += `
+  <div class="compare-row">
+    <div class="comp-icon" style="background:${item.color}18">${item.icon}</div>
+    <div style="flex:1">
+      <div class="comp-label">${item.label}</div>
+      <div class="comp-val">${item.val}</div>
+      <div class="comp-bar-bg">
+        <div class="comp-bar" style="width:${item.pct};background:${item.color};animation-delay:${0.1+i*0.15}s"></div>
+      </div>
+    </div>
+  </div>`;
+});
+
+// ─── S4: Features 렌더링 ───
+const featGrid = document.getElementById('featGrid');
+FEATURES.forEach(f => {
+  featGrid.innerHTML += `
+  <div class="feat-card" style="--feat-color:${f.color}">
+    <div class="feat-num">${f.num}</div>
+    <div class="feat-icon-box" style="background:${f.iconBg}">${f.icon}</div>
+    <div class="feat-title">${f.title}</div>
+    <div class="feat-desc">${f.desc}</div>
+    <div class="feat-pts">${f.pts.map(p=>`<div class="feat-pt"><div class="feat-pt-dot" style="background:${f.color}"></div>${p}</div>`).join('')}</div>
+  </div>`;
+});
+
+// ─── S5: Life Changes 렌더링 ───
+const changesGrid = document.getElementById('changesGrid');
+LIFE_CHANGES.slice(0, 12).forEach(c => {
+  changesGrid.innerHTML += `
+  <div class="change-card">
+    <div class="change-line" style="background:${c.color}"></div>
+    <div class="change-num" style="color:${c.color}">${c.num}</div>
+    <div class="change-title">${c.title}</div>
+    <div class="change-desc">${c.desc}</div>
+  </div>`;
+});
+
+// ⑬ 피처드 카드
+const c13 = LIFE_CHANGES[12];
+changesGrid.innerHTML += `
+<div class="change-card featured">
+  <div class="featured-line" style="background:${c13.color}"></div>
+  <div>
+    <div class="featured-num" style="color:${c13.color}">${c13.num}</div>
+    <div class="featured-title">${c13.title}</div>
+    <div class="featured-desc">${c13.desc}</div>
+    <div class="featured-badge" style="background:${c13.color}18;border:1px solid ${c13.color}40;color:${c13.color}">
+      ✨ 루틴핏 AI 핵심 혁신 — 세상에 없는 개인화
+    </div>
+  </div>
+</div>`;
+
+// ─── VIDEO MODAL 시스템 ───
+const videoModal = document.getElementById('videoModal');
+const vmContent = document.getElementById('vmContent');
+const vmClose = document.getElementById('vmClose');
+
+function openVideo(videoId, title) {
+  // YouTube ID가 플레이스홀더인 경우 안내 표시
+  if (videoId.startsWith('YOUR_YOUTUBE_ID')) {
+    vmContent.innerHTML = `<div class="vm-placeholder"><div class="vm-placeholder-icon">🎬</div><div>${title}</div><div style="font-size:13px;opacity:0.5">YouTube 영상 링크 연동 준비 중</div></div>`;
+  } else {
+    vmContent.innerHTML = `<iframe class="vm-iframe" src="https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0&modestbranding=1" allow="autoplay; encrypted-media" allowfullscreen></iframe>`;
+  }
+  videoModal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeVideo() {
+  videoModal.classList.add('closing');
+  setTimeout(() => {
+    videoModal.classList.remove('active', 'closing');
+    vmContent.innerHTML = '';
+    document.body.style.overflow = '';
+  }, 300);
+}
+
+vmClose.addEventListener('click', closeVideo);
+videoModal.addEventListener('click', (e) => {
+  if (e.target === videoModal) closeVideo();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && videoModal.classList.contains('active')) closeVideo();
+});
+</script>
+</body>
+</html>
